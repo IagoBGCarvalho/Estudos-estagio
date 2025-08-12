@@ -1,0 +1,61 @@
+﻿/*Na estilização, assim como no HTML, é necessário definir um ordem de prioridades, pois o CSS trata de muitas propriedades do site, como a localização de elementos, cores, fontes etc. Irei começar com a cor de fundo e, em seguida, com a cor dos elementos.*/
+
+@import url('https://fonts.googleapis.com/css2?family=Krona+One&family=Montserrat:ital,wght@0,600;1,600&display=swap');
+/*Está importando a fonte Krona One e a Montserrat diretamente do Google Fonts*/
+
+* { /*O asterisco serve para selecionar todos os elementos da página. Neste caso, está sendo utilizado para fazer um reset CSS, ou seja, retirar as configurações de margem, borda e padding que já vem automaticamente nos elementos.*/
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #000000/*Preto*/; /*Se refere a cor do fundo*/
+    color: #F6F6F6/*Branco*/; /*Se refere a cor do texto*/
+}
+
+.titulo-destaque { /*Para que, ao alterar uma tag, a alteração não seja aplicada para todos os elementos, é necessário criar uma classe com as propriedades e aplicá-la no HTML usando "class=nome_classe". É possível fazer a mesma coisa utilizando um ID, colocando um "#" antes do nome do ID no CSS e "id="nome_id" no HTML.*/
+    color: #22D4FD
+}
+
+.apresentacao {
+    margin: 10% 15%;
+    display: flex; /* Esta linha de código é utilizada para implementar o flexbox no contêiner. Ela permite um contexto flexível para todos os seus filhos diretos. */
+    align-items: center; /*Centraliza os itens com base em seu próprio alinhamento.*/
+    justify-content: space-between; /* Justifica os elementos e coloca um espaço entre eles*/
+}
+
+.apresentacao__conteudo {
+    width: 615px; /*Especifica a largura da seção*/
+    display: flex;
+    flex-direction: column; /*Especifica a direção em que os elementos devem estar distribuídos*/
+    gap: 40px; /*Especifica o espaçamento entre os elementos*/
+
+}
+
+.apresentacao__conteudo__titulo {
+    font-size: 36px; /*Especifica o tamanho da fonte do título*/
+    font-family: "Krona One", sans-serif;
+}
+
+.apresentacao__conteudo__texto {
+    font-size: 24px;
+    font-family: "Montserrat", sans-serif;
+}
+
+.apresentacao__links {
+    display: flex;
+    justify-content: space-between
+}
+
+.apresentacao__links__link {
+    background-color: #22D4FD;
+    width: 280px;
+    text-align: center; /*É usado para centralizar texto no css*/
+    border-radius: 16px; /*Modifica o raio da borda, podendo fazer um arredondamento*/
+    font-size: 24px;
+    font-weight: 600;
+    padding: 21.5px 0; /*Para especificar o padding de diferentes eixos, é necessário indicar ambos os valores, primeiro a largura e depois a altura. */
+    text-decoration: none; /*Para retirar o sublinhado padrão de links, é necessário retirar a decoração do texto*/
+    color: #000000;
+    font-family: "Montserrat", sans-serif;
+}
