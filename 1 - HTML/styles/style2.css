@@ -35,7 +35,7 @@ body {
 
 .cabecalho__menu__link {
     font-family: var(--fonte-secundaria);
-    font-size: 24px;
+    font-size: 1.5rem; /*1 rem = 16px*/ /*rem é uma medida relativa para o font-size, ou seja, deixa as fontes responsivas a configuração do usuário.*/
     font-weight: 600;
     color: var(--cor-terciaria);
     text-decoration: none;
@@ -46,10 +46,11 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 82px;
 }
 
 .apresentacao__conteudo {
-    width: 615px;
+    width: 50%; /*A porcentagem se trata da medida relativa de tamanho, ou seja, adapta o tamanho ao zoom ou tela do dispositivo. Ao aplicar na tag pai, aplica aos descendentes. */
     display: flex;
     flex-direction: column;
     gap: 40px;
@@ -57,7 +58,7 @@ body {
 }
 
 .apresentacao__conteudo__titulo {
-    font-size: 36px;
+    font-size: 2.25rem;
     font-family: var(--fonte-primaria);
 }
 
@@ -66,7 +67,7 @@ body {
 }
 
 .apresentacao__conteudo__texto {
-    font-size: 24px;
+    font-size: 1.5rem;
     font-family: var(--fonte-secundaria);
 }
 
@@ -81,7 +82,7 @@ body {
 .apresentacao__links__subtitulo {
     font-family: var(--fonte-primaria);
     font-weight: 400;
-    font-size: 24px;
+    font-size: 1.5rem;
 }
 
 .apresentacao__links__link {
@@ -91,10 +92,10 @@ body {
     gap: 10px; /* Cria um espaço entre o ícone e o texto */
 
     border: 2px solid var(--cor-terciaria);
-    width: 378px;
+    width: 50%;
     text-align: center;
     border-radius: 8px;
-    font-size: 24px;
+    font-size: 1.5rem;
     font-weight: 600;
     padding: 21.5px 0;
     text-decoration: none;
@@ -112,11 +113,31 @@ body {
     background-color: var(--cor-hover);
 }
 
+.apresentacao__imagem {
+    width: 50%
+}
+
 .rodape {
     color: var(--cor-primaria);
     background-color: var(--cor-terciaria);
     padding: 24px;
     text-align: center;
     font-family: var(--fonte-secundaria);
-    font-size: 24px;
+    font-size: 1.5rem;
+}
+
+@media (max-width: 1200px) { /*Media query é utilizado para manipular imagens em determinadas situações. O "()" indica uma condicional, ou seja, se o max-width for menor do que 1200, realiza as alterações especificadas.*/
+    .cabecalho { /*Primeiro se declara a classe e depois são feitas as alterações condicionais.*/
+        padding: 10%
+    }
+    .cabecalho__menu {
+        justify-content: center;
+    }
+    .apresentacao {
+        flex-direction: column-reverse; /*Além de trasnformar de raw (linha) para column (coluna) também reverte de lado, no caso, de baixo para cima.*/
+        padding: 5%
+    }
+    .apresentacao__conteudo {
+        width: auto; /*A propriedade auto faz com que o elemento se adapte as configurações do elemento pai*/
+    }
 }
