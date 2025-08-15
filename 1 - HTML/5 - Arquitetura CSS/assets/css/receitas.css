@@ -1,0 +1,6 @@
+﻿.receitas {
+    background-color: #e5e5e5;
+    display: flex;
+    flex-wrap: wrap; /*Quebra os elementos de linhas em colunas*/
+    padding: 5rem 0 0 5rem;
+}
