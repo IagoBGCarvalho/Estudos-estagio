@@ -8,6 +8,6 @@
 }
 
 .receita__botao:hover {
-    cursor: pointer; /*Muda o icone do cursor*/
     background-color: #620404;
+    cursor: pointer; /*Muda o icone do cursor*/
 }
