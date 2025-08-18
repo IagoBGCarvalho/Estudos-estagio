@@ -21,7 +21,7 @@
 }
 
 @media screen and (min-width: 922px) { /*Computadores*/
-    .receitas {
+    .receita {
         margin-right: 5rem;
         width: calc(25% - 5rem);
     }

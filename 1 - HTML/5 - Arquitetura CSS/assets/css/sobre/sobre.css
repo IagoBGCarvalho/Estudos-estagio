@@ -2,13 +2,13 @@
     text-align: center;
 }
 
-@media screen and (win-width: 0) {
+@media screen and (min-width: 0) {
     .sobre {
         padding: 2.5rem 1rem;
     }
 }
 
-@media screen and (win-width: 768px) {
+@media screen and (min-width: 768px) {
     .sobre {
         padding: 2.5rem;
     }
