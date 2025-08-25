@@ -1,0 +1,39 @@
+﻿.container__titulo {
+    padding: 50px;
+    background-color: snow;
+}
+
+.carrossel__imagem {
+    object-fit: cover;
+    height: 500px;
+}
+
+.carrossel__titulo__fonte {
+    font-family: "Pacifico", cursive;
+}
+
+.cor__vermelha {
+    color: darkred;
+}
+
+.receita__imagem {
+    border-radius: 8px;
+    height: 185px;
+    object-fit: cover;
+    width: 285px;
+}
+
+.receita__botao {
+    background-color: darkred;
+    border: none;
+    color: white;
+}
+
+.receita__borda {
+    border-color: darkred;
+    border-width: 2px;
+}
+
+.titulo__fonte {
+    font-family: "Pacifico", cursive;
+}

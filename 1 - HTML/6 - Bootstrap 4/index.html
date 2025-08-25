@@ -6,42 +6,144 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fruta e Fruto</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Krona+One&family=Montserrat:ital@0;1&family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link href="./assets/css/style.css" rel="stylesheet" />
 </head>
 <body>
+    <header>
+        <!--Navbar-->
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">fruta & fruto</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav  ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Início</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Receitas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Quem somos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Contato</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
     <main>
-        <h1 class="titulo">Reaproveite melhor os alimentos</h1>
-        <h1>Economize e ganhe em saúde!</h1>
+        <!--Carrosel-->
+        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="./assets/img/banner.jpg" class="d-block w-100 carrossel__imagem" alt="...">
+                    <div class="carousel-caption d-none d-md-block h-50">
+                        <h1 class="carrossel__titulo__fonte display-4">Reaproveite melhor os alimentos!</h1>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="./assets/img/banner2.jpeg" class="d-block w-100 carrossel__imagem" alt="...">
+                    <div class="carousel-caption d-none d-md-block h-50">
+                        <h1 class="carrossel__titulo__fonte display-4">Economize e ganhe em saúde!</h1>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="./assets/img/banner3.jpg" class="d-block w-100 carrossel__imagem" alt="...">
+                    <div class="carousel-caption d-none d-md-block h-50">
+                        <h1 class="carrossel__titulo__fonte display-4">Tenha uma vida longa e saudável!</h1>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
 
-        <h2>Receitas para economizar e ganhar saúde</h2>
-        <h2>Nossas receitas ajudam você a aproveitar melhor os alimentos, economizar, ganhar tempo e praticidade</h2>
+        <!--Título e subtítulo-->
+        <div class="container__titulo">
+            <h1 class="text-center titulo__fonte cor__vermelha">Receitas para economizar e ganhar saúde</h1>
+            <p class="text-center text-secondary">Nossas receitas ajudam você a aproveitar melhor os alimentos, economizar, ganhar tempo e praticidade</p>
+        </div>
 
-        <img src="assets/img/receitas/tigela-de-abacate.jpg" alt="Tigela com salada de abacate, vista superior"/>
-        <h3>Tigela de abacate</h3>
-        <p>Receita refrescante e cheia de vitaminas para o seu café da manhã!</p>
+        <!--Cards de receitas-->
+        <div class="card receita__borda" style="width: 18rem;">
+            <img src="assets/img/receitas/tigela-de-abacate.jpg" class="card-img-top receita__imagem" alt="Tigela com salada de abacate, vista superior">
+            <div class="card-body">
+                <h5 class="card-title">Tigela de abacate</h5>
+                <p class="card-text">Receita refrescante e cheia de vitaminas para o seu café da manhã!</p>
+                <a href="#" class="btn receita__botao">Veja a receita</a>
+            </div>
+        </div>
 
-        <img src="assets/img/receitas/salada-de-kiwi.webp" alt="Tigela de mingau com kiwi, vista superior"/>
-        <h3>Salada de kiwi</h3>
-        <p>Receita refrescante e cheia de vitaminas para o seu café da manhã!</p>
+        <div class="card receita__borda" style="width: 18rem;">
+            <img src="assets/img/receitas/salada-de-kiwi.webp" class="card-img-top receita__imagem" alt="Tigela de mingau com kiwi, vista superior">
+            <div class="card-body">
+                <h5 class="card-title">Salada de kiwi</h5>
+                <p class="card-text">Receita refrescante e cheia de vitaminas para o seu café da manhã!</p>
+                <a href="#" class="btn receita__botao">Veja a receita</a>
+            </div>
+        </div>
 
-        <img src="assets/img/receitas/mix-de-vegetais.jpeg" alt="Prato com mix de vegetais, vista superior"/>
-        <h3>Mix de vegetais</h3>
-        <p>Receita refrescante e cheia de vitaminas para o seu café da manhã!</p>
+        <div class="card receita__borda" style="width: 18rem;">
+            <img src="assets/img/receitas/mix-de-vegetais.jpeg" class="card-img-top receita__imagem" alt="Prato com mix de vegetais, vista superior">
+            <div class="card-body">
+                <h5 class="card-title">Mix de vegetais</h5>
+                <p class="card-text">Receita refrescante e cheia de vitaminas para o seu café da manhã!</p>
+                <a href="#" class="btn receita__botao">Veja a receita</a>
+            </div>
+        </div>
 
-        <img src="assets/img/receitas/pimentoes-a-juliana.jpg" alt="Prato com pimentões à juliana, vista superior"/>
-        <h3>Pimentões à juliana</h3>
-        <p>Receita refrescante e cheia de vitaminas para o seu café da manhã!</p>
+        <div class="card receita__borda" style="width: 18rem;">
+            <img src="assets/img/receitas/pimentoes-a-juliana.jpg" class="card-img-top receita__imagem" alt="Prato com pimentões à juliana, vista superior">
+            <div class="card-body">
+                <h5 class="card-title">Pimentões à juliana</h5>
+                <p class="card-text">Receita refrescante e cheia de vitaminas para o seu café da manhã!</p>
+                <a href="#" class="btn receita__botao">Veja a receita</a>
+            </div>
+        </div>
 
-        <img src="assets/img/receitas/prato-oriental.jpeg" alt="Prato de salada ao estilo oriental, vista superior"/>
-        <h3>Prato oriental</h3>
-        <p>Receita refrescante e cheia de vitaminas para o seu café da manhã!</p>
+        <div class="card receita__borda" style="width: 18rem;">
+            <img src="assets/img/receitas/prato-oriental.jpeg" class="card-img-top receita__imagem" alt="Prato de salada ao estilo oriental, vista superior">
+            <div class="card-body">
+                <h5 class="card-title">Prato oriental</h5>
+                <p class="card-text">Receita refrescante e cheia de vitaminas para o seu café da manhã!</p>
+                <a href="#" class="btn receita__botao">Veja a receita</a>
+            </div>
+        </div>
 
-        <img src="assets/img/receitas/beterrabas-assadas.avif" alt="Beterrabas assadas, vista superior"/>
-        <h3>Beterrabas Assadas</h3>
-        <p>Receita refrescante e cheia de vitaminas para o seu café da manhã!</p>
+        <div class="card receita__borda" style="width: 18rem;">
+            <img src="assets/img/receitas/beterrabas-assadas.avif" class="card-img-top receita__imagem" alt="Beterrabas assadas, vista superior">
+            <div class="card-body">
+                <h5 class="card-title">Beterrabas Assadas</h5>
+                <p class="card-text">Receita refrescante e cheia de vitaminas para o seu café da manhã!</p>
+                <a href="#" class="btn receita__botao">Veja a receita</a>
+            </div>
+        </div>
 
-        <p>contato:<a href="mailto:iagobgc@gmail.com">iagobgc@gmail.com</a></p>
-
-        <script src=""></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
     </main>
+    <footer>
+        <p>contato:<a href="mailto:iagobgc@gmail.com">iagobgc@gmail.com</a></p>
+    </footer>
 </body>
 </html>
