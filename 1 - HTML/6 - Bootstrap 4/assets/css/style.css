@@ -1,4 +1,10 @@
-﻿.container__titulo {
+﻿.botao__vermelho {
+    background-color: darkred;
+    border: none;
+    color: white;
+}
+
+.container__titulo {
     padding: 50px;
     background-color: snow;
 }
@@ -19,6 +25,7 @@
 .receita__borda {
     border-color: darkred;
     border-width: 1.5px;
+    border-style: solid;
 }
 
 .receita__botao {
@@ -39,7 +46,7 @@
 }
 
 .receita__largura {
-    width: 18rem;
+    max-width: 18rem;
 }
 
 .titulo__fonte {
