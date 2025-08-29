@@ -1,85 +1,57 @@
-var botaoAdicionar = document.querySelector("#adicionar-paciente");
-botaoAdicionar.addEventListener("click",function(event){
-    event.preventDefault();
-    
-    var form = document.querySelector("#form-adiciona");
-    
-    var paciente = obtemPacienteDoFormulario(form);
-    
-    adicionaPacienteNaTabela(paciente);
+﻿var botaoAdicionar = document.querySelector("#adicionar-paciente");
 
-    var erros = validaPaciente(paciente);
-    if(erros.length > 0){
-        exibeMensagensDeErro(erros);
-        return;
-    }
+botaoAdicionar.addEventListener("click", function () {
+    event.preventDefault(); // Previne o comportamento padrão do botão (recarregar a página)
 
-    var ul = document.querySelector("#mensagens-erro");
-    ul.innerHTML = "";
+    var form = document.querySelector("#form-adiciona"); // O query selector consegue retornar os inputs do formulário
+    var paciente = obtemPacienteDoFormulario(form); // Declara uma variável paciente que recebe o objeto paciente
 
-    form.reset();
+    // Cria a tr e as tds do paciente
+    var pacienteTr = montaTr(paciente);
+
+    // Adicionando paciente na tabela
+    var tabela = document.querySelector("#tabela-pacientes"); // Seleciona a tabela
+    tabela.appendChild(pacienteTr); // Adiciona a nova linha na tabela
 });
 
-function adicionaPacienteNaTabela(paciente){
-    var pacienteTr = montaTr(paciente);
-    var tabela = document.querySelector("#tabela-pacientes");
-    tabela.appendChild(pacienteTr);
-}
-
-function obtemPacienteDoFormulario(form){
-
-    var paciente = {
-        nome: form.nome.value,
+function obtemPacienteDoFormulario(form) {
+    /**
+     * Extrai as informações de input do formulário e as atribui a um objeto paciente
+     */
+    var paciente = { // Objeto paciente - objetos são estruturas que armazenam várias informações em uma única variável e que representam uma entidade do mundo real
+        nome: form.nome.value, // Está aplicando as propriedades (nome, peso, altura e gordura) ao objeto paciente
         peso: form.peso.value,
-        altura: form.altura.value,  
+        altura: form.altura.value,
         gordura: form.gordura.value,
-        imc: calculaImc(form.peso.value,form.altura.value)
+        imc: calculaImc(form.peso.value, form.altura.value)
     }
-
-    return paciente;
-    
+    return paciente; // Retorna o objeto paciente e todas as suas propriedades
 }
 
-function montaTr(paciente){
-    
-    var pacienteTr = document.createElement("tr");
-    pacienteTr.classList.add("paciente");
+function montaTr(paciente) {
+    /**
+     * Monta a tr (table row) do paciente para que ela possa ser adicionada na tabela, assim como todas as tds (table data) que compõem a tr.
+     */
+    var pacienteTr = document.createElement("tr"); // Cria um elemento tr (table row) que representa uma linha da tabela
 
-    pacienteTr.appendChild(montaTd(paciente.nome,"info-nome"));
-    pacienteTr.appendChild(montaTd(paciente.peso,"info-peso"));
-    pacienteTr.appendChild(montaTd(paciente.altura,"info-altura"));
-    pacienteTr.appendChild(montaTd(paciente.gordura,"info-gordura"));
-    pacienteTr.appendChild(montaTd(paciente.imc,"info-imc"));
+    var nomeTd = document.createElement("td"); // Cria um elemento td (table data) que representa uma célula da tabela)
+    var pesoTd = document.createElement("td");
+    var alturaTd = document.createElement("td");
+    var gorduraTd = document.createElement("td");
+    var imcTd = document.createElement("td");
+
+
+    nomeTd.textContent = paciente.nome; // Adiciona o valor do input nome na célula nomeTd
+    pesoTd.textContent = paciente.peso;
+    alturaTd.textContent = paciente.altura;
+    gorduraTd.textContent = paciente.gordura;
+    imcTd.textContent = paciente.imc;
+
+    pacienteTr.appendChild(nomeTd); // Torna as tags td filhas da tag tr
+    pacienteTr.appendChild(pesoTd);
+    pacienteTr.appendChild(alturaTd);
+    pacienteTr.appendChild(gorduraTd);
+    pacienteTr.appendChild(imcTd);
 
     return pacienteTr;
-}
-
-function montaTd(dado,classe){
-    var td = document.createElement("td");
-    td.textContent = dado;
-    td.classList.add(classe);
-
-    return td;
-}
-
-function validaPaciente(paciente){
-    var erros = [];
-    if(!validaPeso(paciente.peso)) {erros.push("Peso inválido")}
-    if(!validaAltura(paciente.altura)) {erros.push("Altura inválida")}
-    if(paciente.nome.length == 0) {erros.push("Nome não pode ser em branco")}
-    if(paciente.gordura.length == 0) {erros.push("Gordura não pode ser em branco")}
-    if(paciente.peso.length == 0) {erros.push("Peso não pode ser em branco")}
-    if(paciente.altura.length == 0) {erros.push("Altura não pode ser em branco")}
-    return  erros;
-
-}
-
-function exibeMensagensDeErro(erros){
-    var ul = document.querySelector("#mensagens-erro");
-    ul.innerHTML = "";
-    erros.forEach(function(erro){
-        var li = document.createElement("li");
-        li.textContent = erro;
-        ul.appendChild(li);
-    })
 }
