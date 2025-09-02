@@ -1,0 +1,37 @@
+﻿[
+    {
+        "nome": "Pedro",
+        "peso": "100",
+        "altura": "2.00",
+        "gordura": "10",
+        "imc": 25.00
+    },
+    {
+        "nome": "Jonas",
+        "peso": "80",
+        "altura": "1.72",
+        "gordura": "40",
+        "imc": 27.15
+    },
+    {
+        "nome": "Eloísa",
+        "peso": "54",
+        "altura": "1.64",
+        "gordura": "14",
+        "imc": 20.08
+    },
+    {
+        "nome": "Thalita",
+        "peso": "60",
+        "altura": "1.70",
+        "gordura": "13",
+        "imc": 20.76
+    },
+    {
+        "nome": "Diego",
+        "peso": "85",
+        "altura": "1.73",
+        "gordura": "24",
+        "imc": 28.41
+    }
+]
