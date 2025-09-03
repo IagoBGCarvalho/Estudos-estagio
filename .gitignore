@@ -4,7 +4,7 @@
 [Oo]bj/
 
 # Pasta de cache e configurações do Visual Studio (ambiente Windows)
-/.vs/
+.vs/
 
 # Pasta de configurações de workspace do VS Code (ambiente Linux/Windows)
 /.vscode/
@@ -12,3 +12,5 @@
 # Arquivos de usuário do Visual Studio (armazenam configurações da solução)
 *.suo
 *.user
+
+Estudos-estagio.sln
