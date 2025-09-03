@@ -1,2 +1,14 @@
-# Ignora a pasta de configura��es do Visual Studio
+# Pastas de compilação do .NET SDK
+# Contêm os arquivos .exe e .dll que são específicos da sua máquina e sistema.
+[Bb]in/
+[Oo]bj/
+
+# Pasta de cache e configurações do Visual Studio (ambiente Windows)
 /.vs/
+
+# Pasta de configurações de workspace do VS Code (ambiente Linux/Windows)
+/.vscode/
+
+# Arquivos de usuário do Visual Studio (armazenam configurações da solução)
+*.suo
+*.user

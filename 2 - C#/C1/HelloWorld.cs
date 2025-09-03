@@ -27,7 +27,7 @@
 // 3 - Criar um diretório para o projeto e entrar nele
 // 4 - Usar a ferramenta dotnet para criar a estrutura da aplicação utilizando:
 // dotnet new console (vai criar um arquivo de projeto e um arquivo C# inicial)
-// 5 - Abrir a pasta raiz do projeto no vs code utilizando "code ."
+// 5 - Utilizar "dotnet run" para compilar o código C#
 
 using System;
 
