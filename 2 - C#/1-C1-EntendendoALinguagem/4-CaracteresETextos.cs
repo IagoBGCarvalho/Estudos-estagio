@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace C1
+namespace _1_C1_EntendendoALinguagem
 {
     internal class CaracteresETextos
     {
@@ -32,7 +32,7 @@ namespace C1
 - C# 
 - Python 
 - Java";
-            Console.WriteLine(listaCursos); // O @ antes das aspas duplas permite que a string contenha quebras de linha e outros caracteres especiais sem precisar de escape
+            Console.WriteLine(listaCursos + "\n"); // O @ antes das aspas duplas permite que a string contenha quebras de linha e outros caracteres especiais sem precisar de escape
         }
     }
 }

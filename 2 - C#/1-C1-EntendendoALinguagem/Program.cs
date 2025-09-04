@@ -31,7 +31,7 @@
 
 using System;
 
-namespace C1
+namespace _1_C1_EntendendoALinguagem
 {
     internal class Program
     {
@@ -50,6 +50,18 @@ namespace C1
 
             CaracteresETextos caracteres = new CaracteresETextos();
             caracteres.ExemplosCaracteresETextos();
+
+            AtribuicoesDeVariaveis atribuicoes = new AtribuicoesDeVariaveis();
+            atribuicoes.ExemplosAtribuicoes();
+
+            Condicionais condicionais = new Condicionais();
+            condicionais.ExemplosCondicionais();
+
+            LacosDeRepeticao lacos = new LacosDeRepeticao();
+            lacos.ExemplosLacos();
+
+            EncadeandoFor encadeandoFor = new EncadeandoFor();
+            encadeandoFor.ExemplosEncadeandoFor();
 
             Console.WriteLine();
             Console.WriteLine("Tecle enter para fechar ...");

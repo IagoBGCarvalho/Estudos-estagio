@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace C1
+namespace _1_C1_EntendendoALinguagem
 {
     internal class ConversaoTipos
     {
