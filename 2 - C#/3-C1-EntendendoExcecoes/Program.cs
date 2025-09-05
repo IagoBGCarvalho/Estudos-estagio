@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace _2_C1_EntendendoExcecoes
+namespace _3_C1_EntendendoExcecoes
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-
+            Console.WriteLine("Oi");
         }
     }
 }
