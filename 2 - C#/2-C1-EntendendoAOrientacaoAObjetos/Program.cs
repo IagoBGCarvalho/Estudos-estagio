@@ -4,34 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace _2_C1_EntendendoAOrientacaoAObjetos
+namespace _2_C1_EntendendoAOrientacaoAObjetos // Serve para ajudar o compilador a encontrar as classes utilizadas
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            ContaCorrente contaGabriela = new ContaCorrente(); // Instanciação da classe ContaCorrente no objeto contaGabriela
+            Console.WriteLine(ContaCorrente.TotalDeContasCriadas);
 
-            contaGabriela.titular = "Gabriela"; // Atribuição do valor "Gabriela" ao atributo titular do objeto contaGabriela
-            contaGabriela.agencia = 863;
-            contaGabriela.numero = 863452;
+            ContaCorrente conta = new ContaCorrente(867, 86712540); // Obedecendo as regras do construtor
+            Console.WriteLine(ContaCorrente.TotalDeContasCriadas);
 
-            ContaCorrente contaGabrielaCosta = new ContaCorrente(); // Instanciação da classe ContaCorrente no objeto contaGabriela
+            Console.WriteLine(conta.Agencia);
+            Console.WriteLine(conta.Numero);
 
-            contaGabrielaCosta.titular = "Gabriela";
-            contaGabrielaCosta.agencia = 863;
-            contaGabrielaCosta.numero = 863452;
-
-            Console.WriteLine("Nome do titular: " + contaGabriela.titular);
-            Console.WriteLine("Agência: " + contaGabriela.agencia);
-            Console.WriteLine("Número da conta: " + contaGabriela.numero);
-            Console.WriteLine("Saldo disponível: " + contaGabriela.saldo);
-
-            Console.WriteLine("Igualdade entre objetos diferentes: " + (contaGabriela == contaGabrielaCosta)); // False, pois são objetos diferentes na memória, mesmo com os mesmos valores
-
-            int idade = 10;
-            int idadeDenovo = 10;
-            Console.WriteLine("Igualdade entre variáveis diferentes com o mesmo valor: " + (idade == idadeDenovo)); // True, pois são tipos primitivos com o mesmo valor
+            ContaCorrente contaDaGabriela = new ContaCorrente(867, 86745820);
+            Console.WriteLine(ContaCorrente.TotalDeContasCriadas);
 
             Console.ReadLine();
         }
