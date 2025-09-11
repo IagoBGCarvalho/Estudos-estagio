@@ -3,6 +3,8 @@ using _4_C1_HerancaEInterfaces.Excecoes;
 using _4_C1_HerancaEInterfaces.Titular;
 using _4_C1_HerancaEInterfaces.Funcionarios;
 using _4_C1_HerancaEInterfaces.Utilitario;
+using _4_C1_HerancaEInterfaces.SistemaInterno_;
+using _4_C1_HerancaEInterfaces.Parceria;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +39,27 @@ namespace _4_C1_HerancaEInterfaces
 
             Console.WriteLine("Total de bonificação = " + gerenciador.TotalDeBonificacao);
         }
+
+        static void UsarSistema()
+        {
+            // Função que usar Autenticar() e Logar() para dar acesso ao sistema aos devidos funcionários
+            SistemaInterno sistema = new SistemaInterno();
+            Diretor ingrid = new Diretor("852734");
+            GerenteDeContas ursula = new GerenteDeContas("9787532");
+            ParceiroComercial parceiro = new ParceiroComercial();
+
+            ingrid.Nome = "Ingrid Novaes";
+            ingrid.Senha = "123";
+
+            ursula.Nome = "Úrsula Alcantara";
+            ursula.Senha = "321";
+
+            parceiro.Senha = "12345";
+
+            sistema.Logar(ingrid, ingrid.Senha);
+            sistema.Logar(ursula, "432");
+            sistema.Logar(parceiro, parceiro.Senha);
+        }   
         static void Main(string[] args)
         {
             try
@@ -67,7 +90,9 @@ namespace _4_C1_HerancaEInterfaces
                 //Console.WriteLine("Novo salário do(a) " + pedro.Nome + ": " + pedro.Salario);
                 //Console.WriteLine("Novo salário do(a) " + roberta.Nome + ": " + roberta.Salario);
                 #endregion
-                CalcularBonificacao();
+                //CalcularBonificacao();
+                UsarSistema();
+
                 Console.WriteLine("\n");
             }
             catch (ArgumentException ex) 

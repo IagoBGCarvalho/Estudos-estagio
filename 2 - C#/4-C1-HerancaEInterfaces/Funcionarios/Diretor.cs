@@ -1,3 +1,4 @@
+using _4_C1_HerancaEInterfaces.SistemaInterno_;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace _4_C1_HerancaEInterfaces.Funcionarios
 {
-    public class Diretor : Funcionario // Herda as características de Funcionário (nome, cpf, salario e bonificação)
+    public class Diretor : FuncionarioAutenticavel // Herda as características de FuncionarioAutenticado, visto que é um usuário (e precisa do nome, cpf. etc...) e pode acessar o sistema interno (precisando da senha e do método de autenticar)
     {
         // Métodos substituídos:
         public override double GetBonificacao() // override altera o funcionamento padrão da função herdada da classe pai 

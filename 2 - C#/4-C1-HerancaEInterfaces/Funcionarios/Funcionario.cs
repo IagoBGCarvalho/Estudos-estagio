@@ -18,7 +18,7 @@ namespace _4_C1_HerancaEInterfaces.Funcionarios
         public abstract double GetBonificacao(); // Por ter implementações concretas desse método em outras classes, agora ele serve apenas como molde, tendo que se tornar abstrato. Isso faz com que a implementação de qualquer lógica não seja possível.
 
         // Virtual diz ao compilador que este método pode ser reescrito por classes filhas de modo a possuir comportamentos alternativos
-
+     
         public abstract void AumentarSalario();
 
         // Construtor
