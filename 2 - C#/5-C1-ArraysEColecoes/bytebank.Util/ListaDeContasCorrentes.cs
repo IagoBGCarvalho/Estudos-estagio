@@ -9,8 +9,18 @@ namespace _5_C1_ArraysEColecoes.bytebank.Util
 {
     public class ListaDeContasCorrentes
     {
+        // Atributos
         private ContaCorrente[] _itens = null;
         private int _proximaPosicao = 0;
+
+        // Propriedades
+        public int Tamanho
+        {
+            get
+            {
+                return _proximaPosicao;
+            }
+        }
 
         // Construtor
         public ListaDeContasCorrentes(int tamanho_inicial = 5) // Caso nada seja passado como parâmetro, o valor padrão será 5
@@ -18,6 +28,7 @@ namespace _5_C1_ArraysEColecoes.bytebank.Util
             _itens = new ContaCorrente[tamanho_inicial];   
         }
 
+        // Métodos
         public void Adicionar(ContaCorrente item)
         {
             Console.WriteLine("Adicionando item na posição: " + _proximaPosicao);
@@ -78,6 +89,25 @@ namespace _5_C1_ArraysEColecoes.bytebank.Util
                     var conta = _itens[i];
                     Console.WriteLine($"Indice [{i}] = Conta: {conta.Conta} - Número da Agência: {conta.Agencia}");
                 }
+            }
+        }
+
+        public ContaCorrente RecuperarContaNoIndice(int indice)
+        {
+            if (indice < 0 || indice >= _proximaPosicao)
+            {
+                throw new ArgumentOutOfRangeException(nameof(indice));
+            }
+
+            return _itens[indice];
+        }
+
+        public ContaCorrente this[int indice]
+        {
+            // Atribui um indexador a ContaCorrente, retornando os itens do array _itens como índices de ContaCorrente
+            get
+            {
+                return RecuperarContaNoIndice(indice);
             }
         }
     }

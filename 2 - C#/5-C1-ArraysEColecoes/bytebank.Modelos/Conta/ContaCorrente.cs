@@ -102,6 +102,7 @@ namespace _5_C1_ArraysEColecoes.bytebank.Modelos.Conta
         {
             Agencia = agencia;
             Conta = conta;
+            Titular = new Cliente();
             
             if (agencia <= 0)
             {
