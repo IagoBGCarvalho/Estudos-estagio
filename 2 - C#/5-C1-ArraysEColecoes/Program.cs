@@ -11,33 +11,12 @@ using _5_C1_ArraysEColecoes.bytebank.Modelos.ADM.Utilitario;
 using _5_C1_ArraysEColecoes.bytebank.Modelos.Conta;
 using _5_C1_ArraysEColecoes.Excecoes;
 using _5_C1_ArraysEColecoes.bytebank.Util;
+using _5_C1_ArraysEColecoes.Bytebank.Atendimento;
 
 namespace _5_C1_ArraysEColecoes
 {
     internal class Program
     {
-        // Listas com ContasCorrentes para teste
-        static List<ContaCorrente> _lista = new List<ContaCorrente>() // Criando uma lista genérica. Possui mais desempenho e segurança do que um ArrayList.
-        {
-            new ContaCorrente(95, "123456-X") {Saldo=100},
-            new ContaCorrente(95, "951258-X") {Saldo=200},
-            new ContaCorrente(94, "987321-W") {Saldo=60}
-        };
-
-        static List<ContaCorrente> _lista2 = new List<ContaCorrente>() // Criando uma lista genérica. Possui mais desempenho e segurança do que um ArrayList.
-        {
-            new ContaCorrente(95, "5679789-A") {Saldo=100}, // Valores default para teste
-            new ContaCorrente(95, "4456668-B") {Saldo=200},
-            new ContaCorrente(94, "7781438-C") {Saldo=60}
-        };
-
-        static List<ContaCorrente> _lista3 = new List<ContaCorrente>() // Criando uma lista genérica. Possui mais desempenho e segurança do que um ArrayList.
-        {
-            new ContaCorrente(95, "5679787-E") {Saldo=100}, // Valores default para teste
-            new ContaCorrente(95, "4456668-F") {Saldo=200},
-            new ContaCorrente(94, "7781438-G") {Saldo=60}
-        };
-
         static void TestaArrayInt()
         {
             int acumulador = 0;
@@ -146,100 +125,6 @@ namespace _5_C1_ArraysEColecoes
             }
 
         }
-        static void ListarContas()
-        {
-            Console.Clear();
-            Console.WriteLine("============================");
-            Console.WriteLine("===    Lista de contas   ===");
-            Console.WriteLine("============================");
-            Console.WriteLine("\n");
-
-            if (_lista.Count <= 0)
-            {
-                // Caso o número de elementos do arraylist seja menor ou igual a 0...
-                Console.WriteLine("Não há contas cadastradas.");
-                Console.ReadKey();
-                return;
-            }
-
-            foreach (ContaCorrente item in _lista)
-            {
-                // Para cada item do array de contas correntes, imprime as suas informações
-                Console.WriteLine("===    Dados da conta    ===");
-                Console.WriteLine("Número da conta: " + item.Conta);
-                Console.WriteLine("Saldo da conta: " + item.Saldo);
-                Console.WriteLine("Titular da conta: " + item.Titular.Nome);
-                Console.WriteLine("CPF do titular: " + item.Titular.CPF);
-                Console.WriteLine("Profissão do titular: " + item.Titular.Profissao);
-                Console.WriteLine("============================");
-                Console.ReadKey();
-            }
-        }
-        static void CadastrarConta()
-        {
-            Console.Clear();
-            Console.WriteLine("============================");
-            Console.WriteLine("===  Cadastro de contas  ===");
-            Console.WriteLine("============================");
-            Console.WriteLine("\n");
-            Console.WriteLine("===Informe dados da conta===");
-
-            // Atribuições
-            Console.Write("Número da conta: ");
-            string numeroConta = Console.ReadLine();
-
-            Console.Write("Número da Agência: ");
-            int numeroAgencia = int.Parse(Console.ReadLine());
-
-            ContaCorrente conta = new ContaCorrente(numeroAgencia, numeroConta);
-
-            Console.Write("Informe o saldo inicial: ");
-            conta.Saldo = double.Parse(Console.ReadLine());
-
-            Console.Write("Informe o nome do titular: ");
-            conta.Titular.Nome = Console.ReadLine();
-
-            Console.Write("Informe o CPF do titular: ");
-            conta.Titular.CPF = Console.ReadLine();
-
-            Console.Write("Informe a profissão do titular: ");
-            conta.Titular.Profissao = Console.ReadLine();
-
-            _lista.Add(conta);
-            Console.WriteLine("Conta cadastrada com sucesso!");
-            Console.ReadKey();
-        }
-        static void RemoverContas()
-        {
-            Console.Clear();
-            Console.WriteLine("============================");
-            Console.WriteLine("===    Remover contas    ===");
-            Console.WriteLine("============================");
-            Console.WriteLine("\n");
-
-            Console.Write("Informe o número da conta: ");
-            string numeroConta = Console.ReadLine();
-
-            ContaCorrente conta = null;
-            foreach (var item in _lista)
-            {
-                if (item.Conta.Equals(numeroConta))
-                {
-                    conta = item;
-                }
-            }
-
-            if (conta != null)
-            {
-                _lista.Remove(conta);
-                Console.WriteLine("Conta removida da lista.");
-            }
-            else
-            {
-                Console.WriteLine("Conta para remoção não encontrada.");
-            }
-            Console.ReadKey();
-        }
         static void Main(string[] args)
         {
             Console.WriteLine("Boas vindas ao atendimento do Bytebank!\n");
@@ -294,57 +179,7 @@ namespace _5_C1_ArraysEColecoes
             //}
             #endregion
 
-            void AtendimentoCliente()
-            {
-                try
-                {
-                    char opcao = '0';
-                    while (opcao != 0)
-                    {
-                        Console.Clear();
-                        Console.WriteLine("============================");
-                        Console.WriteLine("===      Atendimento     ===");
-                        Console.WriteLine("===  1 - Cadastrar Conta ===");
-                        Console.WriteLine("===  2 - Listar Contas   ===");
-                        Console.WriteLine("===  3 - Remover Conta   ===");
-                        Console.WriteLine("===  4 - Ordenar Contas  ===");
-                        Console.WriteLine("===  5 - Pesquisar Conta ===");
-                        Console.WriteLine("===  6 - Sair do sistema ===");
-                        Console.WriteLine("============================");
-                        Console.WriteLine("\n\n");
-                        Console.Write("Digite a opção desejada: ");
-                        try
-                        {
-                            opcao = Console.ReadLine()[0];
-                        }
-                        catch (Exception excecao)
-                        {
-                            throw new BytebankException(excecao.Message);
-                        }
-
-                        switch (opcao)
-                        {
-                            case '1':
-                                CadastrarConta();
-                                break;
-                            case '2':
-                                ListarContas();
-                                break;
-                            case '3':
-                                RemoverContas();
-                                break;
-                            default:
-                                Console.WriteLine("Opção não implementada.");
-                                break;
-                        }
-                    }
-                }
-                catch (BytebankException excecao)
-                {
-                    Console.WriteLine(excecao.Message);
-                }
-            }
-            AtendimentoCliente();
-        }
+            new BytebankAtendimento().AtendimentoCliente(); // Inicia o atendimento
+        }  
     }
 }

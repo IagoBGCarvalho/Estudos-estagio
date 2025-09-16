@@ -2,7 +2,7 @@ using _5_C1_ArraysEColecoes.Excecoes;
 
 namespace _5_C1_ArraysEColecoes.bytebank.Modelos.Conta
 {
-    public class ContaCorrente
+    public class ContaCorrente : IComparable<ContaCorrente> // Interface que permite comparar elementos dessa classe (ContaCorrente)
     {
         /// Classe que representa uma conta corrente do banco Bytebank.
         // Atributos e propriedades:
@@ -97,7 +97,33 @@ namespace _5_C1_ArraysEColecoes.bytebank.Modelos.Conta
             return true;
         }
 
-        // Construtor da classe:
+        public int CompareTo(ContaCorrente? other)
+        {
+            // CompareTo é o método presente no "contrato" da interface Icomparable. Se o this for antes, retorna -1, se forem iguais, retorna 0, e se o other vier antes, retorna 1.
+            if (other == null)
+            {
+                return 1;
+            }
+            else
+            {
+                return this.Agencia.CompareTo(other.Agencia);
+            }
+
+        }
+
+        public override string ToString()
+        {
+            // Retorna os dados da própria conta
+            return $"===    Dados da conta    ===\n"+
+                   $"Número da conta: {this.Conta}\n" +
+                   $"Saldo da conta: {this.Saldo}\n" +
+                   $"Titular da conta: {this.Titular.Nome}\n" +
+                   $"CPF do titular: {this.Titular.CPF}\n" +
+                   $"Profissão do titular: {this.Titular.Profissao}\n" +
+                   $"============================";
+        }
+
+        // Construtores da classe:
         public ContaCorrente(int agencia, string conta)
         {
             Agencia = agencia;
@@ -115,7 +141,29 @@ namespace _5_C1_ArraysEColecoes.bytebank.Modelos.Conta
             }
             catch (DivideByZeroException)
             {
-                Console.WriteLine("Ocorreu um erro! Não é possível fazer uma divisão por zero");
+                //Console.WriteLine("Ocorreu um erro! Não é possível fazer uma divisão por zero");
+            }
+
+            TotalDeContasCriadas++;
+        }
+        public ContaCorrente(int agencia)
+        {
+            Agencia = agencia;
+            Conta = Guid.NewGuid().ToString().Substring(0, 8); // Gera uma string aleatória de até 8 caracteres
+            Titular = new Cliente();
+
+            if (agencia <= 0)
+            {
+                throw new ArgumentException("Número de agência menor ou igual a 0!", nameof(agencia));
+            }
+
+            try
+            {
+                TaxaOperacao = 30 / TotalDeContasCriadas;
+            }
+            catch (DivideByZeroException)
+            {
+                //Console.WriteLine("Ocorreu um erro! Não é possível fazer uma divisão por zero");
             }
 
             TotalDeContasCriadas++;
