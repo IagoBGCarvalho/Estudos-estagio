@@ -266,6 +266,7 @@ namespace _5_C1_ArraysEColecoes.Bytebank.Atendimento
         }
         private void EncerrarAtendimento()
         {
+            Console.Clear();
             Console.WriteLine("Encerrando a aplicação.");
             Console.ReadKey();
         }
