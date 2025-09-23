@@ -37,14 +37,15 @@ namespace _7_C1_StringsExpressoesRegularesClasseObject
         // moedaOrigem=real&moedaDestino=dolar
         public string GetValor(string nomeParametro)
         {
-            nomeParametro = nomeParametro.ToUpper(); // Método que trasnformar todos os caracteres e, caixa alta para evitar um erro na busca pelos índices
+            nomeParametro = nomeParametro.ToUpper(); // Método que trasnforma todos os caracteres em caixa alta para evitar erros na busca pelos índices
             string argumentoEmCaixaAlta = _argumentos.ToUpper(); // MOEDAORIGEM=REAL&MOEDADESTINO=DOLAR
 
             // Mesmo com a imutabilidade das strings, é possível fazer atribuições como:
             // url += "sufixo"; que estaria criando uma string temporária com a união da url + "sufixo" e que depois estaria atribuindo a url o valor dessa variável temporária
             string termo = nomeParametro + '='; // Recebe "moedaOrigem" ou "moedaDestino" e adiciona um "=" para encontrat o índice da string futuramente
-            int indiceTermo = argumentoEmCaixaAlta.IndexOf(termo); // pege o índice de "moedaOrigem=" ou "moedaDestino="
+            int indiceTermo = argumentoEmCaixaAlta.IndexOf(termo); // pega o índice de "moedaOrigem=" ou "moedaDestino="
             string resultado = _argumentos.Substring(indiceTermo + termo.Length); // Retorna a substring que começa a partir do índice do termo + "=" somado ao valor do tamanho do próprio termo, sobrando apenas o valor "real" ou "dolar"
+
             int indiceEComercial = resultado.IndexOf('&');
 
             if (indiceEComercial == -1)
@@ -55,5 +56,10 @@ namespace _7_C1_StringsExpressoesRegularesClasseObject
 
             return resultado.Remove(indiceEComercial); 
         }
+        // Testando o método Remove():
+        //string testeRemocao = "primeiraParte&parteParaRemover";
+        //int indiceEComercial = testeRemocao.IndexOf('&');
+        //Console.WriteLine(testeRemocao.Remove(indiceEComercial, 4));
+        //Console.ReadLine();
     }
 }
