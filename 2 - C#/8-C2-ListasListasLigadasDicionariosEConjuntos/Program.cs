@@ -200,29 +200,150 @@ namespace _8_C2_ListasListasLigadasDicionariosEConjuntos
             aulasListaObjetos.Add(aulaModelando2);
             aulasListaObjetos.Add(aulaSets2);
 
+            Console.WriteLine("---Imprimindo uma lista de objetos---\n");
+
+            ImprimirListaObjetos(aulasListaObjetos);
+
+            Console.WriteLine("---Ordenando uma lista de objetos---\n");
+
+            aulasListaObjetos.Sort();
+            ImprimirListaObjetos(aulasListaObjetos);
+
+            aulasListaObjetos.Sort((este, outro) => este.Tempo.CompareTo(outro.Tempo)); // Ordenando pelo tempo
             ImprimirListaObjetos(aulasListaObjetos);
 
             Console.ReadLine();
-        }
 
-        class Aula
-        {
-            private string _titulo;
-            private int _tempo;
+            /// Lista somente leitura
+            Console.WriteLine("Lista somente leitura:\n");
 
-            public string Titulo { get => _titulo; set => _titulo = value; }
-            public int Tempo { get => _tempo; set => _tempo = value; }
+            Curso csharpColecoes = new Curso("C# Collectins", "Marcelo Oliveira");
 
-            public override string ToString()
+            Console.WriteLine("---Adicionando itens na lista somente leitura---\n");
+
+            csharpColecoes.Adiciona(new Aula("Trabalhando com Listas", 21)); // A lista readonly apenas pode ser alterada utilizando um método encapsulado da classe Curso, mantendo a segurança do código
+            csharpColecoes.Adiciona(new Aula("Criando uma aula", 20));
+            csharpColecoes.Adiciona(new Aula("Modelando com Coleções", 24));
+
+            ImprimirListaReadOnly(csharpColecoes.Aulas);
+
+            Console.WriteLine("---Ordenando a lista somente leitura---\n");
+
+            //csharpColecoes.Aulas.Sort(); Como IList não possui uma especificação para o sort, é necessário copiar a lista para outra lista (que não seja readonly) e usar o sort nela
+
+            List<Aula> aulasCopiadas = new List<Aula>(csharpColecoes.Aulas);
+
+            aulasCopiadas.Sort();
+
+            ImprimirListaReadOnly(aulasCopiadas);
+
+            Console.WriteLine("---Totalizando o tempo do curso---\n");
+
+            // Como cada aula tem uma duração, é possível fazer um somatório deste tempo para calcular o tempo total do curso
+            Console.WriteLine($"Tempo total do curso em minutos: {csharpColecoes.TempoTotal}"); // Propriedade calculada e encapsulada pela classe Curso
+
+            Console.WriteLine("---Imprimindo detalhes do curso---\n");
+
+            Console.WriteLine(csharpColecoes); // Retorna o ToString reescrito com override
+
+            Console.ReadLine();
+
+            /// Conjuntos (sets)
+            Console.WriteLine("Conjuntos (sets):\n");
+
+            // Propriedades dos conjuntos:
+
+            // 1 - Não permite duplicidade (1 elemento contido 2 vezes no mesmo conjunto)
+            // 2 - Os elementos não são mantidos em uma ordem específica
+
+            // Vantagens:
+
+            // A principal vantagem de utilizar conjuntos é a maior velocidade para realizar alguns algoritmos, como a busca, por exemplo.
+            // A sua escalabilidade permite tratar grandes amontes de elementos com maior performance
+
+            // Desvantagens:
+
+            // Por utilizar uma tabela de espalhamento, acaba consumindo mais memória
+
+            // Declaração do conjunto alunos:
+            ISet<string> alunos = new HashSet<string>();
+
+            // Adicionando elementos no conjunto:
+            alunos.Add("Vanessa Tonini");
+            alunos.Add("Ana Losnak");
+            alunos.Add("Rafael Nercessian");
+
+            Console.WriteLine("---Imprimindo um conjunto---\n");
+
+            Console.WriteLine(string.Join(",", alunos) + "\n");
+
+            // Adicionando mais elementos:
+            alunos.Add("Priscila Stuani");
+            alunos.Add("Rollo Rollo");
+            alunos.Add("Fabio Gushiken");
+
+            Console.WriteLine(string.Join(",", alunos) + "\n");
+
+            Console.WriteLine("---Removendo um elemento---\n");
+
+            alunos.Remove("Ana Losnak");
+            alunos.Add("Marcelo Oliveira");
+
+            // Diferente de uma lista, um conjunto não implica saber exatamente onde cada elemento vai estar
+
+            Console.WriteLine(string.Join(",", alunos) + "\n");
+
+            Console.WriteLine("---Checando a duplicidade---\n");
+
+            alunos.Add("Fabio Gushiken"); // Este elemento já existe no conjunto, então nada irá acontecer além de o conjunto manter uma instância do Fabio
+
+            Console.WriteLine(string.Join(",", alunos) + "\n");
+
+            Console.WriteLine("---Ordenando um conjunto---\n");
+
+            // Como o ISet não possui uma definição para sort, é necessário fazer uma cópia do conjunto para uma lista
+
+            List<string> alunosEmLista = new List<string>(alunos); // Criando uma lista que recebe o conjunto no construtor
+
+            alunosEmLista.Sort();
+
+            Console.WriteLine(string.Join(",", alunosEmLista) + "\n");
+
+            Console.WriteLine("---Adicionando alunos no curso---\n");
+
+            // Aulas já foram adicionadas na linha 224
+
+            // Instanciando alunos com suas matrículas:
+            Aluno a1 = new Aluno("Vanessa Tonini", 34672);
+            Aluno a2 = new Aluno("Ana Losnak", 5617);
+            Aluno a3 = new Aluno("Rafael Nercessian", 17645);
+
+            csharpColecoes.Matricula(a1);
+            csharpColecoes.Matricula(a2);
+            csharpColecoes.Matricula(a3);
+
+            foreach (var aluno in csharpColecoes.Alunos)
             {
-                return $"Título: {this.Titulo}, Tempo: {this.Tempo}";
+                Console.WriteLine(aluno);
             }
+            Console.WriteLine("\n");
 
-            public Aula(string titulo, int tempo)
-            {
-                _titulo = titulo;
-                _tempo = tempo;
-            }
+            Console.WriteLine("---Verificando se um aluno está matriculado no curso---\n");
+
+            Console.WriteLine($"O aluno a1 {a1.Nome} está matriculado?" + " " + csharpColecoes.EstaMatriculado(a1));
+
+            Console.WriteLine("---Comparando alunos---\n");
+
+            Aluno tonini = new Aluno("Vanessa Tonini", 34672);
+
+            Console.WriteLine("a1 é equals a Tonini?" + " " + a1.Equals(tonini));
+
+            Console.ReadLine();
+
+            /// Dicionários:
+            Console.WriteLine("Dicionários:\n");
+
+
         }
 
         private static void ImprimirArray(string[] aulas)
@@ -271,6 +392,16 @@ namespace _8_C2_ListasListasLigadasDicionariosEConjuntos
             {
                 Console.WriteLine(aula);
             }
+            Console.WriteLine("\n");
+        }
+
+        private static void ImprimirListaReadOnly(IList<Aula> aulas)
+        {
+            foreach (var aula in aulas)
+            {
+                Console.WriteLine(aula);
+            }
+            Console.WriteLine("\n");
         }
     }
 }
