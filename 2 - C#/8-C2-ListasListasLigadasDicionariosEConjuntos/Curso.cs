@@ -13,6 +13,7 @@ namespace _8_C2_ListasListasLigadasDicionariosEConjuntos
         private string nome;
         private string instrutor;
 		private ISet<Aluno> alunos = new HashSet<Aluno>(); // Conjunto de alunos
+		private IDictionary<int, Aluno> dicionarioAlunos = new Dictionary<int, Aluno>(); // A interface IDictionary recebe o tipo da chave e do valor
 		public IList<Aluno> Alunos
 		{
 			get
@@ -65,13 +66,39 @@ namespace _8_C2_ListasListasLigadasDicionariosEConjuntos
 
         internal void Matricula(Aluno aluno)
         {
-			alunos.Add(aluno);
+			this.alunos.Add(aluno);
+			this.dicionarioAlunos.Add(aluno.NumeroMatricula, aluno);
         }
 
 		public bool EstaMatriculado(Aluno aluno)
 		{
 			return alunos.Contains(aluno); // O conjunto alunos contém o aluno dado como parâmetro?
 		}
+
+        public Aluno BuscaMatriculado(int numeroMatricula)
+        {
+			foreach (var aluno in alunos)
+			{
+				if (aluno.NumeroMatricula == numeroMatricula)
+				{
+					return aluno;
+				}
+			}
+			throw new Exception("Matrícula não encontrada.");
+        }
+
+        public Aluno BuscaMatriculadoDicionario(int numeroMatricula)
+        {
+			Aluno aluno = null;
+            // Normal, utilizaria-se colchetes para consultar o valor da chave especificada "return dicionarioAlunos[chave]", mas aqui se usa um Try out para colocar um valor nulo no retorno caso a busca não seja efetivada, evitando exceções
+            this.dicionarioAlunos.TryGetValue(numeroMatricula, out aluno);
+			return aluno;
+        }
+
+        public void SubstituiAluno(Aluno aluno)
+        {
+			this.dicionarioAlunos[aluno.NumeroMatricula] = aluno; // A partir da chave [] é possível alterar o seu valor utilizando o símbolo de atribuição
+        }
 
         public override string ToString()
         {

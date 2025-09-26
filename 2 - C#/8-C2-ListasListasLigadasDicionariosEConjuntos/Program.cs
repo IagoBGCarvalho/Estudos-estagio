@@ -343,7 +343,242 @@ namespace _8_C2_ListasListasLigadasDicionariosEConjuntos
             /// Dicionários:
             Console.WriteLine("Dicionários:\n");
 
+            Console.WriteLine("---Procurando alunos em um dicionário---\n");
 
+            Console.WriteLine("Quem é o aluno com matrícula 5617?\n");
+
+            Console.WriteLine("Utilizando lista e for: ");
+
+            Aluno aluno5617 = csharpColecoes.BuscaMatriculado(5617);
+
+            Console.WriteLine(aluno5617); // Essa busca usando for funciona, mas não é eficiente, pois precisa de muito processamento.
+            Console.WriteLine("\n");
+
+            // Um dicionário permite associar uma chave (no caso, o campo matrícula), a um valor (5617), tornando a busca mais rápida
+
+            Console.WriteLine("Utilizando dicionário:");
+
+            Aluno aluno5617Dicionario = csharpColecoes.BuscaMatriculadoDicionario(5617);
+
+            Console.WriteLine(aluno5617Dicionario);
+
+            // Exceções:
+            Console.WriteLine("\n");
+            Console.WriteLine("Quem é o aluno com matrícula 5618?\n");
+            Console.WriteLine(csharpColecoes.BuscaMatriculadoDicionario(5618) + "NULL\n");
+
+            Aluno fabio = new Aluno("Fabio Gushiken", 5617);
+            //csharpColecoes.Matricula(fabio); Isso não daria certo, visto que as chaves são únicas, não permitindo mais de um valor para a mesma chave
+
+            Console.WriteLine("---Substituindo valores---\n");
+
+            csharpColecoes.SubstituiAluno(fabio);
+
+            Console.WriteLine("Quem é o aluno 5617 agora?\n");
+            Console.WriteLine(csharpColecoes.BuscaMatriculadoDicionario(5617) + "\n");
+
+            Console.ReadLine();
+
+            /// Listas ligadas:
+            Console.WriteLine("Listas ligadas:\n");
+
+            // Imagine uma lista de frutas...
+            List<string> frutas = new List<string>
+            {
+                "Abacate", "Banana", "Caqui", "Damasco", "Figo"
+            };
+
+            // Imprimindo:
+            foreach (var fruta in frutas)
+            {
+                Console.WriteLine(fruta);
+            }
+            Console.WriteLine("\n");
+
+            // Pelo fato de que, quanto mais elementos existirem em uma lista, mais poder computacional é necessário para fazer operações como adição e remoção, é necessárui utilizar uma LISTA LIGADA (Linked List).
+
+            // Uma lista ligada não armazena elementos na memória em sequência, então cada elemento contém a posição do elemento anterior e a do elemento seguinte (nó), como uma lista duplamente encadeada em C.
+
+            // A ordem dos elementos é mantida usando ponteiros, onde cada elemento tem um ponteiro que aponta para o elemento seguinte
+
+            Console.WriteLine("---Criando uma lista ligada---\n");
+
+            LinkedList<string> dias = new LinkedList<string>(); // Não é possível já inicializar os elementos na declaração
+
+            Console.WriteLine("---Adicionando elementos em uma lista ligada---\n");
+
+            var d4 = dias.AddFirst("Quarta"); // Especificamente adiciona o primeiro elemento da lista ligada, não precisando, necessariamente, ser o primeiro em relação a ordem da lista. Retorna um nó chamado "LinkedListNode"
+
+            // Cada elemento da lista ligada é um nó, que se trata do objeto LinkedListNode<T> que possui ponteiros que apontam para o elemento anterior e para o próximo
+
+            // Para acessar o valor:
+            Console.WriteLine("d4.Value: " + d4.Value + "\n");
+
+            // É possível adicionar valores de 4 formas:
+            // 1 - Como o primeiro nó "AddFirst"
+            // 2 - Como o último nó "AddLast"
+            // 3 - Como o anterior a um nó conhecido "AddBefore"
+            // 4 - Como o próximo de um nó conhecido "AddAfter"
+
+            // Adicionando mais dias:
+            var d2 = dias.AddBefore(d4, "Segunda"); // AddBefore recebe o item posterior e o valor. A partir disso, d2 e d4 estão ligados.
+            // d2.Next é igual a d4 e d4.Previous é igual a d2
+
+            var d3 = dias.AddAfter(d2, "Terça");
+
+            var d6 = dias.AddAfter(d4, "Sexta");
+
+            var d7 = dias.AddAfter(d6, "Sábado");
+
+            var d5 = dias.AddBefore(d6, "Quinta");
+
+            var d1 = dias.AddBefore(d2, "Domingo");
+
+            Console.WriteLine("---Imprimindo uma lista ligada---\n");
+
+            foreach (var dia in dias)
+            {
+                Console.WriteLine(dia);
+            }
+            Console.WriteLine("\n");
+
+            Console.WriteLine("---Fazendo uma busca em uma lista ligada---\n");
+
+            var quarta = dias.Find("Quarta");  // A Linked List é eficiente na adição e remoção de itens, mas ineficiente na busca
+            Console.WriteLine(quarta.Value + "\n");
+
+            Console.WriteLine("---Removendo itens da lista ligada---\n");
+
+            // Para remover um elemento da lista igada, pode-se utilizar o nome do nó ou a referência dele.
+
+            // dias.Remove("quarta") ou dias.Remove(d4);
+
+            dias.Remove("Quarta");
+
+            foreach (var dia in dias)
+            {
+                Console.WriteLine(dia);
+            }
+            Console.WriteLine("\n");
+
+            Console.ReadLine();
+
+            /// Pilha:
+            Console.WriteLine("Pilha:\n");
+
+            // Miniprojeto que se trata da simulação da ferramenta de "voltar" do navegador, permitindo retornar a páginas já visitadas 
+
+            var navegador = new Navegador();
+
+            navegador.NavegarPara("google.com");
+            navegador.NavegarPara("caelum.com.br");
+            navegador.NavegarPara("alura.com.br");
+
+            navegador.Anterior();
+            navegador.Anterior();
+            navegador.Anterior();
+
+            navegador.Proximo();
+            navegador.Proximo();
+            navegador.Proximo();
+
+            Console.ReadLine();
+
+            /// Fila:
+            Console.WriteLine("Fila:\n");
+
+            // Miniprojeto que se trata de uma fila de pedágio
+
+            Queue<string> pedagio = new Queue<string>();
+
+            Console.WriteLine("---Adcionando e imprimindo elementos na pilha---\n");
+
+            Enfileirar(pedagio, "Van");
+            Enfileirar(pedagio, "Kombi");
+            Enfileirar(pedagio, "Guincho");
+            Enfileirar(pedagio, "Pickup");
+
+            Console.WriteLine("---Retirando elementos na pilha---\n");
+
+            // Para liberar os carros:
+            Desenfileirar(pedagio);
+            Desenfileirar(pedagio);
+            Desenfileirar(pedagio);
+
+            Console.ReadLine();
+
+            /// Guia de collections
+
+            // Guia feito para indicar qual coleção é mais apropriada para cada situação.
+
+            /// O primeiro que entra é o primeiro que sai? (Como uma fila de pedágio)
+
+            // Então use uma fila!!!
+            // Para adicionar elementos: "Enqueue()" e para remover: "Dequeue()"
+
+            /// O último que entre é o primeiro que sai? (Como uma pilha de pratos ou a funcionalidade de "voltar" de um navegador)
+
+            // Então use uma pilha!!!
+            // Para adicionar elementos: "Push()" e para remover: "Pop()"
+
+            /// Precisa de uma coleção flexível? (Como poder inserir elementos em qualquer posição, limpar, reverter, ordenar...)
+
+            // Então use uma lista!!!
+            // Para adicionar elementos no final: "Add()", para remover: "Remove()", para inserir em qualquer lugar: "Insert()", para limpar: "Clear()", para reverter: "Reverse()" e para ordenar: "Sort()".
+
+            /// Uma coleção de tamanho fixo para tratar com baixo nível? (Como pixels ou bytes)
+            
+            // Então use um array!!!
+            // Pode ser acessado pelo métodos da lista e pelo índice
+
+            /// Precisa de uma coleção com inserção e remoção rápida?
+            
+            // Então use uma lista ligada!!!
+            // Para inserir o primeiro item: "AddFirst()", o último: "AddLast()", antes de um item já conhecido: "AddBefore()" e depois de um item já conhecido: "AddAfter()"
+
+            /// Precisa fazer operações com conjuntos? (Como saber se um elemento está contido em uma ou mais coleções)
+            
+            // Então use um conjunto!!!
+            
+            /// Precisa fazer uma busca rapidamente? (Como um cliente por seu CPF)
+      
+            // Então use um aidiconário! 
+            // Ele armazena dados na forma do nó "[Chave]: Valor" onde é possível buscar rapidamente um valor específico a partir da sua chave
+        }
+
+        private static void Desenfileirar(Queue<string> pedagio)
+        {
+            if (pedagio.Any()) // Se tiver algum carro na fila...
+            {
+                if (pedagio.Peek() == "Guincho") // Peek() permite olhar quem é o próximo a sair da fila
+                {
+                    Console.WriteLine("Guincho está fazendo o pagamento.");
+                }
+                string veiculo = pedagio.Dequeue();
+                Console.WriteLine($"{veiculo} saiu da fila.\n");
+
+                ImprimirFila(pedagio);
+            }
+        }
+
+        private static void Enfileirar(Queue<string> pedagio, string veiculo)
+        {
+            Console.WriteLine($"Entrou na fila: {veiculo}\n");
+
+            pedagio.Enqueue(veiculo); // O método Enqueue "Enfileirar" adiciona um item na fila
+
+            ImprimirFila(pedagio);
+        }
+
+        private static void ImprimirFila(Queue<string> pedagio)
+        {
+            Console.WriteLine("Fila:");
+
+            foreach (var v in pedagio)
+            {
+                Console.WriteLine(v);
+            }
+            Console.WriteLine("\n");
         }
 
         private static void ImprimirArray(string[] aulas)
