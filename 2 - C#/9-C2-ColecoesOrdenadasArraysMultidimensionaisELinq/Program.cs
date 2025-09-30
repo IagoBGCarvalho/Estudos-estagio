@@ -263,6 +263,8 @@ namespace _9_C2_ColecoesOrdenadasArrayMultidimensionaisELinq
                 new Mes("Dezembro", 31)
             };
 
+            var mesesClone = new List<Mes>(meses);
+
             Console.WriteLine("Fazendo no braço:\n");
 
             meses.Sort();
@@ -298,10 +300,151 @@ namespace _9_C2_ColecoesOrdenadasArrayMultidimensionaisELinq
             /// Outros operadores LINQ
             Console.WriteLine("Outros operadores LINQ:\n");
 
+            Console.WriteLine("Pegar o primeiro trimestre:\n");
+
+            var consultaLINQ = mesesClone.Take(3); // Take retorna o número de elementos informados a partir do começo da coleção
+            ImprimeConsulta(consultaLINQ);
+
+            Console.WriteLine("Pegar todos os meses depois do terceiro trimestre:\n");
+
+            var consultaLINQ2 = mesesClone.Skip(3);
+            ImprimeConsulta(consultaLINQ2);
+
+            Console.WriteLine("Pegar os 3 meses depois do segundo trimestre:\n");
+
+            var consultaLINQ3 = mesesClone.Skip(6).Take(3); // Pula 6 elementos e depois pega os três próximos
+            ImprimeConsulta(consultaLINQ3);
+
+            Console.WriteLine("Pegar os meses até que o mês comece com a letra 's':\n");
+
+            var consultaLINQ4 = mesesClone.TakeWhile(m => !m.Nome.StartsWith("S")); // Pega os elementos enquanto o elemento (m) NÃO (!) começa com a letra "s"
+            ImprimeConsulta(consultaLINQ4);
+
+
+            Console.WriteLine("Pular os meses até que o mês comece com a letra 's':\n");
+
+            var consultaLINQ5 = mesesClone.SkipWhile(m => !m.Nome.StartsWith("S")); // Pula todos os elementos enquanto o elemento não começar com a letra "s"
+            ImprimeConsulta(consultaLINQ5);
+
+            Console.ReadLine();
+
+            /// Operadores de conjuntos
+            Console.WriteLine("Operadores de conjuntos:\n");
+
+            string[] seq1 = { "janeiro", "fevereiro", "março" };
+            string[] seq2 = { "fevereiro", "MARÇO", "abril" };
+
+            Console.WriteLine("Concatenando duas sequências:\n");
+
+            var consultaLINQ6 = seq1.Concat(seq2); // Concatena duas coleções
+            ImprimeConsulta(consultaLINQ6);
+
+            Console.WriteLine("União de duas sequências:\n");
+
+            var consultaLINQ7 = seq1.Union(seq2); // A operação de união não repete elementos que existem em ambos os conjuntos
+            ImprimeConsulta(consultaLINQ7);
+
+            Console.WriteLine("União de duas sequências com comparador:\n");
+
+            var consultaLINQ8 = seq1.Union(seq2, StringComparer.InvariantCultureIgnoreCase); // O comparador "InvariantCultureIgnoreCase" ignora o case sensitive, entenendo caracteres minúsculos e maiúsculos como iguais
+            ImprimeConsulta(consultaLINQ8);
+
+            Console.WriteLine("Intersecção de duas sequências:\n");
+
+            var consultaLINQ9 = seq1.Intersect(seq2); // Mostra os elementos que são comuns a ambos os conjuntos
+            ImprimeConsulta(consultaLINQ9);
+
+            Console.WriteLine("Diferença entre dois elementos:\n");
+
+            var consultaLINQ10 = seq1.Except(seq2); // Retorna os elementos que fazem parte, exclusivamente, de seq1
+            ImprimeConsulta(consultaLINQ10);
+
+            Console.ReadLine();
+
+            /// Covariância
+            Console.WriteLine("Covariância:\n");
+
+            Console.WriteLine("Conversões implícitas:\n"); // Feitas automaticamente pelo compilador, não precisam de casting e não ocasionam perca de dados. Apenas utilizam o operador de atribuição e o compilador faz o resto do trabalho.
+
+            Console.WriteLine("String para object:\n");
+
+            string titulo = "meses";
+            object obj = titulo; // Como todas as classes do dotnet herdam de object, é possível fazer a conversão implícita
+            Console.WriteLine(obj + "\n");
+
+            Console.WriteLine("List<string> para List<object>:\n");
+
+            IList<string> listaMeses = new List<string>
+            {
+                "Janeiro", "Fevereiro", "Março",
+                "Abril", "Maio", "Junho",
+                "Julho", "Agosto", "Setembro",
+                "Outubro", "Novembro", "Dezembro"
+            };
+
+            //IList<object> listaObj = listaMeses; Daria erro, pois a interface IList não permite a conversão implícita de string para object
+
+            Console.WriteLine("string[] para object[]:\n");
+
+            string[] arrayMeses = new string[]
+            {
+                "Janeiro", "Fevereiro", "Março",
+                "Abril", "Maio", "Junho",
+                "Julho", "Agosto", "Setembro",
+                "Outubro", "Novembro", "Dezembro"
+            };
+
+            object[] arrayObj = arrayMeses; // Covariância em ação
+            Console.WriteLine(arrayObj); // Imprime apenas o nome do objeto no sistema
+            foreach (var item in arrayObj)
+            {
+                Console.WriteLine(item); // Com o foreach é possível imprimir os elementos, comprovando que a conversão foi bem sucedida
+            }
+            Console.WriteLine();
+
+            // No C#, a covariância do array deve ser evitada pois, uma vez feito o casting, o array que o recebeu não pode mais guardar valores que sejam diferentes do tipo pelo qual sofreu o array
+
+            Console.WriteLine("List<string> para IEnumerable<object>:\n");
+
+            IEnumerable<object> enumObj = listaMeses; // Covariância segura
+            foreach (var item in enumObj)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine();
+
+            Console.ReadLine();
+
+            /// Foreach
+            Console.WriteLine("Foreach:\n");
+
+            var mesesFor = new List<string>(listaMeses);
+
+            foreach (var mes in mesesFor)
+            {
+                Console.WriteLine(mes);
+            }
+            Console.WriteLine();
+
+            Console.WriteLine("A classe List (e muitas outras) possui a interface IEnumerable, que possui o método GetEnumerator(), que retorna um IEnumerator genérico.\n");
+            Console.WriteLine("Um IEnumerator se trata de uma struct que possui uma propriedade T para representar o elemento atual e um método MoveNext() que atribui a T o valor do próximo elemento da coleção.\n");
+            Console.WriteLine("Ou seja, a interface IEnumerable cria uma sequência de elementos que podem ser numerados e percorridos através da struct IEnumerator.\n");
+            Console.WriteLine("Ao utilizar o foreach, o IEnumerator.T vai estar na posição -1 e, a cada loop irá utilizar o método MoveNext(). A variável interna do foreach pega o valor da propriedade T e a lógica implementada no for age sobre essa variável.\n");
+            Console.WriteLine("Após o fim do loop, o MoveNext() é utilizado novamente, seguindo o loop estabelecido.\n");
+            Console.WriteLine("Para previnir erros, o C# gera exceções caso a variável interna ou a coleção utilizada no foreach sejam modificadas.\n");
+            Console.WriteLine("Caso o foreach seja utilizado em coleções que não aplicam o IEnumerable, irá se comportar como um for.\n");
+
             Console.ReadLine();
         }
+        public static void ImprimeConsulta(IEnumerable consulta) 
+        { 
+            foreach (var item in consulta) 
+            {
+                Console.WriteLine(item); 
+            } 
+            Console.WriteLine(); 
+        }
     }
-
     class Mes : IComparable
     {
         public string Nome { get; private set; }
