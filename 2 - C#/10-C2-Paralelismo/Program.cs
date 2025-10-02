@@ -12,7 +12,7 @@ namespace _10_C2_Paralelismo
     internal class Program
     {
         private static int _numeroContas = 0;
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             Console.WriteLine("Processadores com mais de um core (núcleo) podem utilizar cores diferentes para realizar atividades diferentes (como executar aplicativos diferentes). Normalmente isso é organizado pelo sistema operacional.\n");
 
@@ -163,7 +163,7 @@ namespace _10_C2_Paralelismo
 
             Console.WriteLine("---Utilizando Parallel.ForEach---\n");
 
-            Console.WriteLine("Utilizar Tasks já é uma grande melhoria, as Threads são automaticamente instanciadas e iniciadas, mas ainda é necessário dividir a lista, criar tarefas, esperar as tarefas terminarem etc...\n");
+            Console.WriteLine("Utilizar Tasks já é uma grande melhoria, as Threads já são automaticamente instanciadas e iniciadas, mas ainda é necessário dividir a lista, criar tarefas, esperar as tarefas terminarem etc...\n");
 
             Console.WriteLine("Subindo mais um nível na abstração do paralelismo, está o Parallel.ForEach, que se trata de um loop foreach sequencial trasnformado em um loop paralelo otimizado. Ele faz todo o trabalho manual necessário automaticamente, analisa a coleção fornecida, analisa o hardware para identificar quantos núcleos a CPU tem e faz todo o gerenciamento das Tasks automaticamente. 20 linhas de código se tornam 3.\n");
 
@@ -182,6 +182,37 @@ namespace _10_C2_Paralelismo
             Console.WriteLine($"Número total de contas: {_numeroContas}\n");
             MostrarTempoDecorrido(stopwatch.Elapsed);
 
+            Console.WriteLine("---Utilizando async/await---\n");
+
+            Console.WriteLine("Relembrando, o Paralelismo se trata da utilização de vários núcleos de CPU ao mesmo tempo para terminar um trabalho pesado mais rápido. Analogia: Vários conzinheiros (Threads) cortando vegetais ao mesmo tempo para entregar um prato mais rapidamente. Agora será implementada a Assincronia.\n");
+
+            Console.WriteLine("Assincronia se trata da habilidade de uma Thread iniciar uma operação demorada (que envolve espera) e, ao invés de ficar parada, é liberada para fazer outras coisas. Analogia: Um cozinheiro que precisa fazer uma sopa que na receita pede para ferver a água por 10 minutos. Ao invés de ficar parado esperando o tempo da água ferver, ele coloca um timer (await) e vai cortar os vegetais. Quando o timer apita, ele volta para a água.\n");
+
+            Console.WriteLine("async/await é ideal para operações input/output, como: resposta de uma API, consulta no banco de dados, leitura de um arquivo grande no disco, etc. Em apps de UI, isso impede que a tela congele. Em servidores, permite atender a milhares de requisições simultaneamente.\n");
+
+            Console.WriteLine("Para utilizar a palavra chave 'await' na Main, é necessário marcá-la como async e mudar o retorno para Task.\n");
+
+            Console.WriteLine("Aperte qualquer tecla para continuar:");
+            Console.ReadLine();
+
+            stopwatch.Restart();
+            _numeroContas = 0;
+
+            var tarefas = contas.Select(conta => ProcessarContaAsync(conta)); // Transforma cada item da coleção em uma Task utilizando o método Async
+
+            // Por se tratar de um método assíncrono, ao final do Select, não se tem a transformação em si, mas a PROMESSA de cada uma (await). O preparo foi iniciado e está sendo executado em segundo plano.
+
+            await Task.WhenAll(tarefas); // Cria uma única Task que só termina quando todas as outras acabarem
+            // O 'await' pausa o método Main, mas de forma não-bloqueante, e só continua quando todas as tarefas terminarem.
+
+            stopwatch.Stop();
+            Console.WriteLine($"Número total de contas: {_numeroContas}\n");
+            MostrarTempoDecorrido(stopwatch.Elapsed);
+
+            Console.WriteLine("A diferença absurda de tempo entre o uso Parallel.ForEach e do async/await acontece por causa da natureza do assincronia. Ao invés da Thread se deparar com uma atividade de processamento e ficar 100% ocupado com ela, ela liga o timer que indica quando o processamento vai acabar (await), se declara livre e já inicia a próxima atividade. Ou seja, em poucos milisegundos, todas as atividades já foram ao menos iniciadas, mesmo que não tenham terminado. O 'await Task.WhenAll(tarefas)' simplesmente aguarda todas os timers acabarem para continuar o fluxo da Main.\n");
+
+            Console.WriteLine("A diferença de performance não foi o async/await sendo magicamente mais rápido para trabalho de CPU, mas a diferença entre simular um trabalho bloqueante (CPU) e um não bloqueante (I/O). Ou seja, o Parallel.ForEach deve ser utilizado para CPU-Bound (trabalos de cpu envolvendo cálculos, processamento de imagens, etc.) e quando se quer usar todos os núcleos para terminar mais rápido, enquanto o async/await em trabalhos que envolvem espera obrigatória, como espera por rede, disco, banco de dados, etc...\n");
+
             Console.WriteLine("!!!FIM DA SIMULAÇÃO!!!\n");
 
             Console.ReadLine();
@@ -192,6 +223,26 @@ namespace _10_C2_Paralelismo
 
             // numeroContas++; Pode causar race condition!!
             Interlocked.Increment(ref _numeroContas); // Interlocked é uma classe que possui operações atômicas (indivisível), impedindo a race condition
+        }
+        static async Task ProcessarContaAsync(int numeroConta) // É necessário assinalar funções assíncronas como async e especificar o retorno como uma Task
+        {
+            // Quando um método é marcado como 'async Task', ele começa a executar e retorna uma Task<T> imediatamente quando encontra o primeiro await de uma operação não concluída. Ou seja, ele retorna a promessa e executa o processamento em segundo plano até conseguir terminar a tarefa.
+
+            // Fluxo da função:
+
+            // 1 - O select pega o primeiro int da lista contas (0)
+            // 2 - Chama o método ProcessarContaAsync
+            // 3 - Entra no método
+            // 4 - Chega na linha 'await Task.Delay(1)'
+            // 5 - O Task.Delay inicia um timer de 1ms simulando um processamento extremo
+            // 6 - O await faz duas coisas: Agenda o restante do método (no caso, o Interlocked) para ser executado como continuação quando o Delay acabar e retorna IMEDIATAMENTE o controle para quem o chamou (o select), entregando um objeto Task que representa toda a operação que está em andamento.
+            // 7 - O select, em posse do primeiro objeto Task, o adiciona à coleção de resultados (tarefas)
+            // 8 - O select, sem bloqueio, passa para o próximo item da lista (1) e repete todo o processo novamente
+            // 9 - A variável tarefas se torna um array de Tasks, onde cada task representa uma operação ProcessarContaAsync, que está cozinhando em segundo plano.
+            // 10 - Por fim, a linha 'await Task.WhenAll(tarefas)' aguarda todos os processamentos terminarem e segue o fluxo da Main
+
+            await Task.Delay(1); // Ao invés de botar a Thread principal para dormir (bloqueada) o await libera ela para fazer outras coisas
+            Interlocked.Increment(ref _numeroContas);
         }
         static void MostrarTempoDecorrido(TimeSpan tempo)
         {
