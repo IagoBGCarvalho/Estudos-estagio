@@ -14,17 +14,7 @@ namespace _11_C2_TrabalhandoComArquivos
     {
         static void Main(string[] args)
         {
-            var enderecoDoArquivo = "contas.txt";
-
-            using (var fluxoDeArquivo = new FileStream(enderecoDoArquivo, FileMode.Open))
-            {
-                var leitor = new StreamReader(fluxoDeArquivo); //FileStream é uma classe intermediária que faz todo o trabalho da leitura do arquivo e da manipulação de bytes
-
-                var linha = leitor.ReadLine(); // Lê uma linha do arquivo
-                Console.WriteLine(linha);
-            }
-
-                Console.ReadLine();
+            Console.ReadLine();
         }
     }
 }
