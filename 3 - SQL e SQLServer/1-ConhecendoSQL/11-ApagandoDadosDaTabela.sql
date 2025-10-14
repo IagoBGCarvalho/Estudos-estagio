@@ -1,0 +1,2 @@
+DELETE FROM TABELA_DE_PRODUTOS -- PERIGO!! Apenas rodar esta única linha de código irá apagar TODOS os dados da tabela
+WHERE CODIGO_DO_PRODUTO = '1004327'; -- O where é utilizado, novamente, como um filtro para os elementos que devem ser modificados (no caso, excluídos)

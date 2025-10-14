@@ -26,5 +26,3 @@
 -- CHAR[0-8000 bytes] representa um texto com uma cadeia FIXA de caracteres. Mesmo que menos caracteres do que o limute forem informados, todos os espaços serão preenchidos.
 -- VARCHAR[0-8000 bytes mas pode ser aumentado com MAX] é um char, mas com tamanho variável.
 -- Os textos UNICODE são os textos que são representados utilizando a tabela de codificação UTF-16. Basta colocar um N antes do tipo para informar que ele está utilizando a codificação (NCHAR)
-
--- Outros tipos...
