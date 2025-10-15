@@ -8,13 +8,13 @@
 
 CREATE DATABASE SUCOS_VENDAS -- Para mudar o diretório, é necessário inserir uma série de argumentos:
 ON (NAME = 'SUCOS_VENDAS.DAT', -- Nome interno do bd no sistema
-	FILENAME = 'C:\Users\iago.carvalho.REDEMPM\Downloads\temp\SUCOS_VENDAS.mdf', -- Caminho do diretório + nome do arquivo do banco
+	FILENAME = 'C:\Users\iago.carvalho\Downloads\temp\SUCOS_VENDAS.mdf', -- Caminho do diretório + nome do arquivo do banco
 	SIZE = 10MB, -- Tamanho inicial do banco
 	MAXSIZE = 50MB, -- Tamanho máximo que pode chegar
 	FILEGROWTH = 5MB) -- Tamanho que ele ganha ao ultrapassar o tamanho inicial
 LOG ON -- Agora são as especificações do que estará registrado no arquivo de log
 (NAME = 'SUCOS_VENDAS.LOG',
-	FILENAME = 'C:\Users\iago.carvalho.REDEMPM\Downloads\temp\SUCOS_VENDAS_log.ldf', -- Alteração de mdf para ldf
+	FILENAME = 'C:\Users\iago.carvalho\Downloads\temp\SUCOS_VENDAS_log.ldf', -- Alteração de mdf para ldf
 	SIZE = 10MB,
 	MAXSIZE = 50MB,
 	FILEGROWTH = 5MB);
