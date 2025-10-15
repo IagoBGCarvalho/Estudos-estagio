@@ -6,3 +6,6 @@ WHERE CODIGO_DO_PRODUTO = '544931'; -- Where indica a condição que a linha dev
 UPDATE TABELA_DE_PRODUTOS
 SET PRECO_DE_LISTA = 7.50, EMBALAGEM = 'Garrafa' -- Faz duas alterações na linha de código 1088126
 WHERE CODIGO_DO_PRODUTO = '1088126';
+
+-- Para alterar mais de uma linha ao mesmo tempo, basta utilizar o próprio campo como parâmetro:
+UPDATE TABELA_DE_PRODUTOS SET PRECO_DE_LISTA = PRECO_DE_LISTA * 1.1 WHERE EMBALAGEM = 'Lata'; -- Faz um aumento de 10% no preço de todos os produtos que utilizam a lata de embalagem
