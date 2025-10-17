@@ -22,3 +22,29 @@ FROM NOTAS_FISCAIS NF -- NOTAS_FISCAIS renomeada para NF
 INNER JOIN TABELA_DE_VENDEDORES TV -- TABELA_DE_VENDEDORES renomeada para TV
 ON NF.MATRICULA_VENDEDOR = TV.MATRICULA 
 GROUP BY MATRICULA_VENDEDOR, NOME;
+
+-- Além do INNER JOIN, existem outros tipos de JOIN, como LEFT JOIN, RIGHT JOIN e CROSS JOIN
+
+-- Considerando 2 conjuntos A e B, LEFT JOIN irá pegar todos os elementos do conjunto A e todos os elementos da interceção AB
+-- Considerando 2 conjuntos A e B, RIGHT JOIN irá retornar todos os elementos de B e todos os elementos da interceção AB
+
+-- Se trocar INNER por LEFT, serão retornados TODOS os clientes, até os que não fizeram compras:
+
+SELECT DISTINCT 
+TC.CPF AS CPF_DO_CADASTRO,
+TC.NOME AS NOME_DO_CLIENTE,
+NF.CPF_CLIENTE AS CPF_DA_NOTA
+FROM TABELA_DE_CLIENTES TC
+LEFT JOIN
+NOTAS_FISCAIS NF
+ON TC.CPF = NF.CPF_CLIENTE;
+
+SELECT DISTINCT 
+TC.CPF AS CPF_DO_CADASTRO,
+TC.NOME AS NOME_DO_CLIENTE,
+NF.CPF_CLIENTE AS CPF_DA_NOTA
+FROM TABELA_DE_CLIENTES TC
+LEFT JOIN
+NOTAS_FISCAIS NF
+ON TC.CPF = NF.CPF_CLIENTE
+WHERE NF.CPF_CLIENTE IS NULL; -- Utilizando uma condição, é possível retornar apenas quem não fez nenhuma compra
