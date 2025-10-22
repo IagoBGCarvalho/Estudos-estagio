@@ -1,0 +1,13 @@
+Para criar uma Web API no Linux, é necessário instalar o Visual Studio Code, o SDK do dotnet, e a extensão C# Dev Kit, que contém os modelos prontos.
+
+Após a instalação das ferramentas, é necessário criar um diretório dedicado ao projeto da API utilizando "mkdir nome_projeto", acessá-lo utilizando "cd nome_projeto" e abri-lo pelo vs code utilizando: "code .".
+
+Após abrir o projeto pelo vs code, é necessário abrir o terminal e começar a utilizar a CLI do C# (comando dotnet). Para criar um modelo de uma web api, basta digitar: "dotnet new webapi --name nome_api -f versão_framework". Este comando criaria um modelo de web api minimal, que é um modelo onde não existe a pasta Controllers, pois a configuração e as endpoints são definidas diretamente na main.
+
+Para criar uma API que utiliza o estilo normal de configuração e controladores, é necessário usar a flag "--use-controllers" antes da definição do nome da API, da seguinte forma: "dotnet new webapi --use-controllers --name nome_api -f versão_framework". Lembrando que a especificação da versão do framework é opcional.
+
+Exemplo: "dotnet new webapi --use-controllers --name FilmesApi"
+
+Por fim, para compilar o projeto, basta utilizar: "dotnet run --project nome_api/nome_api.csproj". Exemplo: "dotnet run --project FilmesApi/FilmesApi.csproj".
+
+Para acessar a API, é necessário utilizar ferramentas como o swagger (que dão uma interface gráfica a API), que já vem junto do modelo pronto. A URL de acesso deverá começar com "localhost" e deve conter a porta dedicada a API que está especificada no arquivo de configuração de inicialização, seguido de "/swagger". Exemplo: "https://localhost:7116/swagger"
