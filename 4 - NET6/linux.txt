@@ -1,4 +1,4 @@
-Para criar uma Web API no Linux, é necessário instalar o Visual Studio Code, o SDK do dotnet, e a extensão C# Dev Kit, que contém os modelos prontos.
+Para criar e utilizar uma Web API no Linux, é necessário instalar o Visual Studio Code, o SDK do dotnet, a extensão C# Dev Kit do vs code (que contém os modelos prontos para criar a API), o Postman e algum banco de dados, como SQLServer ou MySQL.
 
 Após a instalação das ferramentas, é necessário criar um diretório dedicado ao projeto da API utilizando "mkdir nome_projeto", acessá-lo utilizando "cd nome_projeto" e abri-lo pelo vs code utilizando: "code .".
 
