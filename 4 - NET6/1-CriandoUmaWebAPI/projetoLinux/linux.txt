@@ -1,0 +1,31 @@
+Para criar e utilizar uma Web API no Linux, é necessário instalar o Visual Studio Code, o SDK do dotnet, a extensão C# Dev Kit do vs code (que contém os modelos prontos para criar a API), o Postman, o Entity Framework Core e algum banco de dados, como SQLServer ou MySQL.
+
+Após a instalação das ferramentas, é necessário criar um diretório dedicado ao projeto da API utilizando "mkdir nome_projeto", acessá-lo utilizando "cd nome_projeto" e abri-lo pelo vs code utilizando: "code .".
+
+Após abrir o projeto pelo vs code, é necessário abrir o terminal e começar a utilizar a CLI do C# (comando dotnet). Para criar um modelo de uma web api, basta digitar: "dotnet new webapi --name nome_api -f versão_framework". Este comando criaria um modelo de web api minimal, que é um modelo onde não existe a pasta Controllers, pois a configuração e as endpoints são definidas diretamente na main.
+
+Para criar uma API que utiliza o estilo normal de configuração e controladores, é necessário usar a flag "--use-controllers" antes da definição do nome da API, da seguinte forma: "dotnet new webapi --use-controllers --name nome_api -f versão_framework". Lembrando que a especificação da versão do framework é opcional.
+
+Exemplo: "dotnet new webapi --use-controllers --name FilmesApi"
+
+Os pacotes necessários para utilizar o Entity no projeto são "Microsoft.EntityFrameworkCore" e "Microsoft.EntityFrameworkCore.Tools". Para instalar eles,
+basta abrir o terminal na raiz do projeto e inserir, de cada vez: 
+
+"dotnet add package Microsoft.EntityFrameworkCore" e 
+"dotnet add package Microsoft.EntityFrameworkCore.Tools".
+
+Com o motor e as ferramentas instaladas, é necessário baixar o pacote que faz a tradução dos comandos EF Core para SQLServer, que é o "Microsoft.EntityFrameworkCore.SqlServer" Que pode ser instalado com: 
+
+"dotnet add package Microsoft.EntityFrameworkCore.SqlServer".
+
+!!! ATENÇÃO !!! Para que a ConnectionString no arquivo appsettings.json funcione no SqlServer, é necessário cadastrar um usuário e senha no SqlServer do linux e utilizar o padrão de string de conexão: 
+
+"ConnectionStrings": {
+  "FilmeConnection": "Server=localhost;Database=FilmesDb;User Id=seu_usuario_sql;Password=sua_senha_sql;TrustServerCertificate=True"
+}
+
+(APENAS QUANDO FOR NECESSÁRIO FAZER O MAPEAMENTO DE TABELAS AINDA NÃO EXISTENTES NO BANCO): Para fazer o mapeamento das Classes modeladas para tabelas,
+basta digitar: "dotnet ef migrations add Nome_Migration" para realizar a build (ou "Add-Migration CriandoTabelaDeFilme" no PowerShell do Windows),
+que criará o arquivo de migração que será utilizado pelo Update Database para criar o banco de dados (ou atualizar ele) e implementar as tabelas
+
+Por fim, para compilar o projeto, basta utilizar: "dotnet run --project nome_api.csproj". Exemplo: "dotnet run --project FilmesApi.csproj", que irá iniciar a API em uma portar HTTP ou HTTPS específica. É por meio desta porta que é possível fazer as requisições via Postman.
