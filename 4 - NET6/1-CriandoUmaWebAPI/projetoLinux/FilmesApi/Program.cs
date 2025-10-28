@@ -19,6 +19,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); // Registra a interface IMapper e escaneia as classes que herdam de AutoMapper.Profile
 var app = builder.Build();
 
 app.UseHttpsRedirection();

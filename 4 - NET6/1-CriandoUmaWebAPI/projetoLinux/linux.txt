@@ -1,4 +1,4 @@
-Para criar e utilizar uma Web API no Linux, é necessário instalar o Visual Studio Code, o SDK do dotnet, a extensão C# Dev Kit do vs code (que contém os modelos prontos para criar a API), o Postman, o Entity Framework Core e algum banco de dados, como SQLServer ou MySQL.
+Para criar e utilizar uma Web API no Linux, é necessário instalar o Visual Studio Code, o SDK do dotnet, a extensão C# Dev Kit do vs code (que contém os modelos prontos para criar a API), o Postman, o Entity Framework Core, o AutoMapper (e o injection), o NewtonSoft e algum banco de dados, como SQLServer ou MySQL.
 
 Após a instalação das ferramentas, é necessário criar um diretório dedicado ao projeto da API utilizando "mkdir nome_projeto", acessá-lo utilizando "cd nome_projeto" e abri-lo pelo vs code utilizando: "code .".
 
@@ -27,5 +27,15 @@ Com o motor e as ferramentas instaladas, é necessário baixar o pacote que faz 
 (APENAS QUANDO FOR NECESSÁRIO FAZER O MAPEAMENTO DE TABELAS AINDA NÃO EXISTENTES NO BANCO): Para fazer o mapeamento das Classes modeladas para tabelas,
 basta digitar: "dotnet ef migrations add Nome_Migration" para realizar a build (ou "Add-Migration CriandoTabelaDeFilme" no PowerShell do Windows),
 que criará o arquivo de migração que será utilizado pelo Update Database para criar o banco de dados (ou atualizar ele) e implementar as tabelas
+
+Para instalar o AutoMapper e o DependencyInjection (na versão 12, que está funcionando, diferente da 12.0.1), basta digitar:
+
+"dotnet add package AutoMapper --version 12.0.0"
+e
+"dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection --version 12.0.0"
+
+Para instalar o Newtonsoft, é necessário que o número da versão dele seja igual a versão do JDK do .NET utilizado. Para instalar a versão 8, basta digitar:
+
+"dotnet add package Microsoft.AspNetCore.Mvc.NewtonsoftJson --version 8.0.21"
 
 Por fim, para compilar o projeto, basta utilizar: "dotnet run --project nome_api.csproj". Exemplo: "dotnet run --project FilmesApi.csproj", que irá iniciar a API em uma portar HTTP ou HTTPS específica. É por meio desta porta que é possível fazer as requisições via Postman.
