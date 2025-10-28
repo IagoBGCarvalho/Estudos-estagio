@@ -1,4 +1,4 @@
-Para criar e utilizar uma Web API no Linux, é necessário instalar o Visual Studio Code, o SDK do dotnet, a extensão C# Dev Kit do vs code (que contém os modelos prontos para criar a API), o Postman, o Entity Framework Core, o AutoMapper (e o injection), o NewtonSoft e algum banco de dados, como SQLServer ou MySQL.
+Para criar e utilizar uma Web API no Linux, é necessário instalar o Visual Studio Code, o SDK do dotnet, a extensão C# Dev Kit do vs code (que contém os modelos prontos para criar a API), o Postman, o Entity Framework Core, o AutoMapper (e o injection), o NewtonSoft, o Swashbuckle e algum banco de dados, como SQLServer ou MySQL.
 
 Após a instalação das ferramentas, é necessário criar um diretório dedicado ao projeto da API utilizando "mkdir nome_projeto", acessá-lo utilizando "cd nome_projeto" e abri-lo pelo vs code utilizando: "code .".
 
@@ -37,5 +37,9 @@ e
 Para instalar o Newtonsoft, é necessário que o número da versão dele seja igual a versão do JDK do .NET utilizado. Para instalar a versão 8, basta digitar:
 
 "dotnet add package Microsoft.AspNetCore.Mvc.NewtonsoftJson --version 8.0.21"
+
+E para instalar o SwashBuckle (responsável pela iniciação do Swagger para a documentação da Api), basta digitar:
+
+"dotnet add package Swashbuckle.AspNetCore --project nome_projeto.csproj"
 
 Por fim, para compilar o projeto, basta utilizar: "dotnet run --project nome_api.csproj". Exemplo: "dotnet run --project FilmesApi.csproj", que irá iniciar a API em uma portar HTTP ou HTTPS específica. É por meio desta porta que é possível fazer as requisições via Postman.
