@@ -21,6 +21,7 @@ public class Filme
     [Required(ErrorMessage = "A duração do filme é obrigatória.")]
     [Range(70, 600, ErrorMessage = "A duração deve ter entre 70 e 600 minutos.")] // Range define o escopo de números recebidos, no caso, sendo de 70 minutos até 600.
     public int Duracao { get; set; }
+    public virtual ICollection<Sessao> Sessoes { get; set; } // Uma IColecction indica que esta entidade receberá várias sessões.
 
     // Para fazer o mapemanto final da classe um uma tabela, é necessário utilizar o comando: "dotnet ef migrations add Nome_Migration" para realizar a build (ou "Add-Migration CriandoTabelaDeFilme" no PowerShell do Windows).
 

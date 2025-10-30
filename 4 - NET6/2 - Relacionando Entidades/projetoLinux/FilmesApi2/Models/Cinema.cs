@@ -13,5 +13,7 @@ namespace FilmesApi.Models
         public string Nome { get; set; }
         public int EnderecoId { get; set; }
         public virtual Endereco Endereco { get; set; } // Propriedade virtual que indica que a entidade cinema possui a relação 1:1 com endereço. Permite o acesso as propriedades da entidade que se relaciona com o cinema
+        public virtual ICollection<Sessao> Sessoes { get; set; } // 1:N (Cinema:Sessoes)
+
     }
 }

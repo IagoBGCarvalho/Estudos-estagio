@@ -55,11 +55,15 @@ public class FilmeController : ControllerBase // É necessário herdar da classe
     /// <returns>IEnumerable</returns>
     /// <response code="200">Em qualquer caso, pois retorna uma lista vazia de objetos caso não encontre nada</response>
     [HttpGet] // Operação que retorna recursos
-    public IEnumerable<ReadFilmeDto> RecuperaFilmes([FromQuery]int skip = 0, [FromQuery]int take = 50) // FromQuery especifica que os dados dos parâmetros serão fornecidos explicitamente pelo usuário
+    public IEnumerable<ReadFilmeDto> RecuperaFilmes([FromQuery]int skip = 0, [FromQuery]int take = 50, [FromQuery] string? nomeCinema = null) // FromQuery especifica que os dados dos parâmetros serão fornecidos explicitamente pelo usuário
     {
-        return _mapper.Map<List<ReadFilmeDto>>(_context.Filmes.Skip(skip).Take(take));
+        if(nomeCinema == null)
+        {
+            return _mapper.Map<List<ReadFilmeDto>>(_context.Filmes.Skip(skip).Take(take).ToList());
+        }
+        return _mapper.Map<List<ReadFilmeDto>>(_context.Filmes.Skip(skip).Take(take).Where(filme => filme.Sessoes.Any(sessao => sessao.Cinema.Nome == nomeCinema)).ToList());
+
         // Para testar no Postman: GET -> https://localhost:porta/Filme?skip=numero_de_filmes_pulados&take=numero_de_filmes_pegos ("?" é o caractere que indica passagem de parâmetros)
-        // Como valores padrão foram definidos nos parâmetros, utilizar apenas .../Filme não vai gerar erros, mas retornar os primeiros 50 filmes.
     }
 
     // Método para retornar um filme pelo seu id:
