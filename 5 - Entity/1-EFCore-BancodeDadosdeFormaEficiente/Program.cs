@@ -14,91 +14,89 @@
 // 2 - "Microsoft.EntityFrameworkCore.SqlServer" que contém as injeções do SqlServer
 // 3 - "Microsoft.EntityFrameworkCore.Tools" que contém as ferramentas de migração
 
-// O entity permite fazer todas as operações CRUD (Create, Read, Update e Delete)
+// Para abrir o manual do Entity, basta digitar no terminal: "dotnet ef"
 
 using Alura.Loja.Testes.Data;
 using Alura.Loja.Testes.Models;
 
-namespace Alura.Loja.Testes {
+namespace Alura.Loja.Testes
+{
     class Program
     {
         static void Main(string[] args)
         {
-            //GravarUsandoEntity();
-            //RecuperarProdutos();
-            //ExcluirProdutos();
-            //RecuperarProdutos();
-            //AtualizarProduto();
-        }
-
-        private static void GravarUsandoEntity()
-        {
-            // Create (está criando um novo dado no sistema)
-
-            // Utiliza-se o modelo referente a tabela para criar uma variável que fará o mapeamento dos parâmetros para um ojeto que representará os dados gravados na tabela.
-            // Cada propriedade do objeto deve ser preenchida de acordo com as especificações das colunas da tabela
-            Produto p = new Produto();
-            p.Nome = "Harry Potter e a Ordem da Fênix";
-            p.Categoria = "Livros";
-            p.Preco = 19.89;
-
-            // O using é utilizado para ininicar a conexão, realizar os processamentos e depois encerra-lá utilizando o dispose():
+            // Utilizando o contexto diretamente (não recomendado):
             using (var contexto = new LojaContext())
             {
-                contexto.Produtos.Add(p); // Para dar um insert no banco, utiliza-se a propriedade que representa a tabela e o método Add que fará toda a formatação do insert automaticamente
-                contexto.SaveChanges(); // SaveChanges sempre deve ser utilizado para implementar as alterações
-            }
-        }
+                var produtos = contexto.Produtos.ToList();
 
-        private static void RecuperarProdutos()
-        {
-            // Read (está lendo os dados já existentes no sistema)
-
-            using (var contexto = new LojaContext())
-            {
-                // Para retornar um SELECT, é necessário converter a propriedade que representa o banco em uma lista e
-                // depois atribuir o resultado a uma variável que implementa uma interface IList do modelo que
-                // representa a tabela.
-                IList<Produto> produtos = contexto.Produtos.ToList();
-                Console.WriteLine("\nForam encontrados {0} produto(s).", produtos.Count);
-                foreach (var item in produtos)
-                {
-                    Console.WriteLine(item.Nome);
-                }
-            }
-        }
-
-        private static void AtualizarProduto()
-        {
-            // Update (está atualizando partes de um dado no sistema ou ele todo)
-
-            // Incluir um produto
-            GravarUsandoEntity(); // Gravando um produto para teste
-            RecuperarProdutos();
-
-            // Atualizar o produto
-            using (var contexto = new LojaContext())
-            {
-                Produto primeiro = contexto.Produtos.First(); // Para teste, pegando o primeiro produto, mas poderia ser outra condição
-                primeiro.Nome = "Harry Potter - Editado"; // Alterando a propriedade do objeto que representa a coluna do registro a ser alterada
-                contexto.Produtos.Update(primeiro); // Chama o Update do entity que automaticamente cria um comando SQL UPDATE com as alterações realizadas previamente no objeto
+                var p1 = produtos.First();
+                p1.Nome = "008"; // Apenas mudar uma propriedade do objeto já faz com que o Entity entenda que deve dar um UPDATE no banco
+                // Isso acontece pois o Entity possui o ChangeTracker, que é uma propriedade responsável por rastrear todas as mudanças que estão acontecendo na instância do contexto.
                 contexto.SaveChanges();
-            }
-            RecuperarProdutos();
-        }
 
-        private static void ExcluirProdutos()
-        {
-            // Delete (está removendo um dado do sistema)
-
-            using (var contexto = new LojaContext())
-            {
-                IList<Produto> produtos = contexto.Produtos.ToList();
-                foreach (var item in produtos)
+                produtos = contexto.Produtos.ToList();
+                foreach (var p in produtos)
                 {
-                    contexto.Produtos.Remove(item); // Utiliza os produtos encontrados pelo select para remover eles da propriedade do contexto, consequentemente, da tabela do banco de dados.
+                    Console.WriteLine(p);
                 }
-                contexto.SaveChanges(); // É necessário salvar as mudanças depois que todas as remoções são feitas na propriedade
+
+                // O ChangeTracker possui uma lista de todas as entidades gerenciadas no contexto:
+                var entidades = contexto.ChangeTracker.Entries();
+                Console.WriteLine("====================");
+                foreach (var entidade in entidades)
+                {
+                    Console.WriteLine(entidade.Entity.ToString() + " - " + entidade.State); // O método ToString das entidade retorna o nome da tabela, o ID e o estado do objeto (se foi alterado ou não)
+                }
+            }
+
+            // Utilizando o DAO:
+
+            // Pegando dados de input do usuário para adicionar um produto na tabela
+            Console.WriteLine("\nDeseja adicionar um produto na tabela? Digite 'S' para SIM e 'N' para NÃO:");
+            var decisaoUsuario = (Console.ReadLine() ?? "").ToUpper();
+
+            if (decisaoUsuario == "S")
+            {
+                Console.WriteLine("Digite o nome do produto:");
+                var nomeProduto = Console.ReadLine() ?? "";
+
+                Console.WriteLine("Digite a categoria do produto:");
+                var categoriaProduto = Console.ReadLine() ?? "";
+
+                Console.WriteLine("Digite o preço do produto:");
+                var precoProduto = Console.ReadLine() ?? "";
+                var precoProdutoDouble = Double.Parse(precoProduto);
+
+                Console.WriteLine("Digite a unidade do produto:");
+                var unidadeProduto = Console.ReadLine() ?? "";
+
+                // Declaração e mapemanto do objeto que será utilizado para inserir os dados na tabela:
+
+                // Utiliza-se o modelo (Produto) referente a tabela (Produtos) para criar uma variável que fará o mapeamento dos parâmetros para um objeto que representará os dados gravados na tabela.
+                // Cada propriedade do objeto deve ser preenchida de acordo com as especificações das colunas da tabela
+                Produto novoProduto = new Produto();
+                novoProduto.Nome = nomeProduto;
+                novoProduto.Categoria = categoriaProduto;
+                novoProduto.PrecoUnitario = precoProdutoDouble;
+                novoProduto.Unidade = unidadeProduto;
+
+                using (var contexto = new ProdutoDAOEntity())
+                {
+                    contexto.Adicionar(novoProduto); // O using é utilizado para inicar a conexão, realizar os processamentos e depois encerra-lá utilizando o dispose()
+                }
+            }
+
+            // Listando os produtos no banco:
+            using (var contexto = new ProdutoDAOEntity())
+            {
+                Console.WriteLine("============================");
+                Console.WriteLine("Produtos no banco:");
+                var produtos = contexto.Produtos();
+                foreach (var p in produtos)
+                {
+                    Console.WriteLine(p);
+                }
             }
         }
     }

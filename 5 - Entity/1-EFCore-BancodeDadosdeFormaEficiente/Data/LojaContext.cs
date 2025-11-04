@@ -17,7 +17,7 @@ namespace Alura.Loja.Testes.Data
         // 1 - Classes a serem persistidas:
         public DbSet<Produto> Produtos { get; set; } // DbSet se trata da classe que faz o mapemanto de uma propriedade para uma tabela do banco de dados. Por isso, deve mapear uma classe que representa, diretamente, uma tabela do banco
 
-        // 2 - O banco de dados (qual é o banco de dados e onde ele fica):
+        // 2 - O banco de dados (qual é o banco de dados e onde ele fica) e 3 - a string de conexão indicando o servidor:
 
         // Para fazer isso, é necessário sobreescrever o método de configuração da classe DbContext:
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
