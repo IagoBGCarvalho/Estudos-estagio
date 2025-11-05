@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Alura.Loja.Testes.Models
 {
-    internal class Produto
+    public class Produto
     {
         // Sempre que alterações são feitas na estrutura do código, é necessário sincronizar essas alterações no banco.
         // O Entity permite fazer isso através de de uma Migration, que é um comando da CLI do dotnet que gera, automaticamente, código SQL para fazer alterações na estrutura do banco de dados.
@@ -16,6 +16,7 @@ namespace Alura.Loja.Testes.Models
         public string? Categoria { get; set; }
         public double PrecoUnitario { get; set; }
         public string Unidade { get; set; }
+        public IList<PromocaoProduto> Promocoes { get; set; } // Definindo relação N:M entre Produto e Promoção, sendo necessária a criação de uma tabela intermediária, que é representada pela classe PromocaoProduto
         public override string ToString()
         {
             return $"Produto: {this.Id}, {this.Nome}, {this.Categoria}, {this.PrecoUnitario}";

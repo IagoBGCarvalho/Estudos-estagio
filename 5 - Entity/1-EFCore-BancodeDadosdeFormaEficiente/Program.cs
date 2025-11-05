@@ -17,7 +17,9 @@
 // Para abrir o manual do Entity, basta digitar no terminal: "dotnet ef"
 
 using Alura.Loja.Testes.Data;
+using Alura.Loja.Testes.Migrations;
 using Alura.Loja.Testes.Models;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Alura.Loja.Testes
 {
@@ -25,79 +27,43 @@ namespace Alura.Loja.Testes
     {
         static void Main(string[] args)
         {
-            // Utilizando o contexto diretamente (não recomendado):
+            // Criando produtos a serem adicionados na promoção:
+            var p1 = new Produto() { Nome = "Suco de Laranja", Categoria = "Bebidas", PrecoUnitario = 8.79, Unidade = "Litros" };
+            var p2 = new Produto() { Nome = "Café", Categoria = "Bebidas", PrecoUnitario = 12.45, Unidade = "Gramas" };
+            var p3 = new Produto() { Nome = "Macarrão", Categoria = "Alimentos", PrecoUnitario = 4.23, Unidade = "Gramas" };
+
+            var promocaoDePascoa = new Promocao();
+            promocaoDePascoa.Descricao = "Páscoa Feliz";
+            promocaoDePascoa.DataInicio = DateTime.Now;
+            promocaoDePascoa.DataTermino = DateTime.Now.AddMonths(3);
+
+            // Incluindo produtos na promoção:
+            promocaoDePascoa.IncluiProduto(p1);
+            promocaoDePascoa.IncluiProduto(p2);
+            promocaoDePascoa.IncluiProduto(p3);
+
             using (var contexto = new LojaContext())
             {
-                var produtos = contexto.Produtos.ToList();
+                // Persistindo a promoção no banco
+                contexto.Promocoes.Add(promocaoDePascoa);
+                ExibeEntries(contexto.ChangeTracker.Entries());
+                //contexto.SaveChanges();
 
-                var p1 = produtos.First();
-                p1.Nome = "008"; // Apenas mudar uma propriedade do objeto já faz com que o Entity entenda que deve dar um UPDATE no banco
-                // Isso acontece pois o Entity possui o ChangeTracker, que é uma propriedade responsável por rastrear todas as mudanças que estão acontecendo na instância do contexto.
-                contexto.SaveChanges();
-
-                produtos = contexto.Produtos.ToList();
-                foreach (var p in produtos)
-                {
-                    Console.WriteLine(p);
-                }
-
-                // O ChangeTracker possui uma lista de todas as entidades gerenciadas no contexto:
-                var entidades = contexto.ChangeTracker.Entries();
-                Console.WriteLine("====================");
-                foreach (var entidade in entidades)
-                {
-                    Console.WriteLine(entidade.Entity.ToString() + " - " + entidade.State); // O método ToString das entidade retorna o nome da tabela, o ID e o estado do objeto (se foi alterado ou não)
-                }
+                // Removendo uma promoção do banco:
+                // var promocao = contexto.Promocoes.First();
+                // contexto.Promocoes.Remove(promocao);
+                // ExibeEntries(contexto.ChangeTracker.Entries());
+                // contexto.SaveChanges();
             }
-
-            // Utilizando o DAO:
-
-            // Pegando dados de input do usuário para adicionar um produto na tabela
-            Console.WriteLine("\nDeseja adicionar um produto na tabela? Digite 'S' para SIM e 'N' para NÃO:");
-            var decisaoUsuario = (Console.ReadLine() ?? "").ToUpper();
-
-            if (decisaoUsuario == "S")
+        }
+        private static void ExibeEntries(IEnumerable<EntityEntry> entries)
+        {
+            /// Função que exibe o estado de cada entrie sendo trackeada pelo ChangeTracker
+            foreach (var e in entries)
             {
-                Console.WriteLine("Digite o nome do produto:");
-                var nomeProduto = Console.ReadLine() ?? "";
-
-                Console.WriteLine("Digite a categoria do produto:");
-                var categoriaProduto = Console.ReadLine() ?? "";
-
-                Console.WriteLine("Digite o preço do produto:");
-                var precoProduto = Console.ReadLine() ?? "";
-                var precoProdutoDouble = Double.Parse(precoProduto);
-
-                Console.WriteLine("Digite a unidade do produto:");
-                var unidadeProduto = Console.ReadLine() ?? "";
-
-                // Declaração e mapemanto do objeto que será utilizado para inserir os dados na tabela:
-
-                // Utiliza-se o modelo (Produto) referente a tabela (Produtos) para criar uma variável que fará o mapeamento dos parâmetros para um objeto que representará os dados gravados na tabela.
-                // Cada propriedade do objeto deve ser preenchida de acordo com as especificações das colunas da tabela
-                Produto novoProduto = new Produto();
-                novoProduto.Nome = nomeProduto;
-                novoProduto.Categoria = categoriaProduto;
-                novoProduto.PrecoUnitario = precoProdutoDouble;
-                novoProduto.Unidade = unidadeProduto;
-
-                using (var contexto = new ProdutoDAOEntity())
-                {
-                    contexto.Adicionar(novoProduto); // O using é utilizado para inicar a conexão, realizar os processamentos e depois encerra-lá utilizando o dispose()
-                }
+                Console.WriteLine(e.Entity.ToString() + " - " + e.State);
             }
 
-            // Listando os produtos no banco:
-            using (var contexto = new ProdutoDAOEntity())
-            {
-                Console.WriteLine("============================");
-                Console.WriteLine("Produtos no banco:");
-                var produtos = contexto.Produtos();
-                foreach (var p in produtos)
-                {
-                    Console.WriteLine(p);
-                }
-            }
         }
     }
 }

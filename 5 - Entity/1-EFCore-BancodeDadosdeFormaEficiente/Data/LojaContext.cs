@@ -16,6 +16,8 @@ namespace Alura.Loja.Testes.Data
 
         // 1 - Classes a serem persistidas:
         public DbSet<Produto> Produtos { get; set; } // DbSet se trata da classe que faz o mapemanto de uma propriedade para uma tabela do banco de dados. Por isso, deve mapear uma classe que representa, diretamente, uma tabela do banco
+        public DbSet<Compra> Compras { get; set; }
+        public DbSet<Promocao> Promocoes { get; set; }
 
         // 2 - O banco de dados (qual é o banco de dados e onde ele fica) e 3 - a string de conexão indicando o servidor:
 
@@ -24,6 +26,13 @@ namespace Alura.Loja.Testes.Data
         {
             // O método recebe como parâmetro o construtor de opções, que pode ser utilizado para definir propriedades específicas do contexto.
             optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=LojaDB;Trusted_Connection=True;TrustServerCertificate=True"); // Utilizando as opções para definir que o SqlServer é o banco utilizado e também especificar a string de conexão, que deve conter o servidor e o nome do banco.
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // OnModelCreating é um método executado no evento de criação do modelo
+            modelBuilder.Entity<PromocaoProduto>().HasKey(pp => new { pp.PromocaoId, pp.ProdutoId }); // Está especificando que entidade que possui como modelo a classe PromocaoProduto irá possui uma chave composta (por duas colunas, PromocaoId e ProdutoId, pois é uma tabela intermediária).
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
