@@ -18,6 +18,7 @@ namespace Alura.Loja.Testes.Data
         public DbSet<Produto> Produtos { get; set; } // DbSet se trata da classe que faz o mapemanto de uma propriedade para uma tabela do banco de dados. Por isso, deve mapear uma classe que representa, diretamente, uma tabela do banco
         public DbSet<Compra> Compras { get; set; }
         public DbSet<Promocao> Promocoes { get; set; }
+        public DbSet<Cliente> Clientes { get; set; }
 
         // 2 - O banco de dados (qual é o banco de dados e onde ele fica) e 3 - a string de conexão indicando o servidor:
 
@@ -31,7 +32,17 @@ namespace Alura.Loja.Testes.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // OnModelCreating é um método executado no evento de criação do modelo
-            modelBuilder.Entity<PromocaoProduto>().HasKey(pp => new { pp.PromocaoId, pp.ProdutoId }); // Está especificando que entidade que possui como modelo a classe PromocaoProduto irá possui uma chave composta (por duas colunas, PromocaoId e ProdutoId, pois é uma tabela intermediária).
+            modelBuilder.Entity<PromocaoProduto>()
+                .HasKey(pp => new { pp.PromocaoId, pp.ProdutoId }); // Está especificando que entidade que possui como modelo a classe PromocaoProduto irá possui uma chave composta (por duas colunas, PromocaoId e ProdutoId, pois é uma tabela intermediária).
+
+            modelBuilder.Entity<Endereco>()
+                .Property<int>("ClienteId"); // Está criando uma "Shadow Property", uma propriedade que não está implementada em código, mas que o Entity consegue gerar
+
+            modelBuilder.Entity<Endereco>()
+                .HasKey("ClienteId"); // Aplicando a shadow property como chave primária de Endereco
+
+            modelBuilder.Entity<Endereco>().ToTable("Enderecos"); // Alterando o nome da tabela para o plural
+
             base.OnModelCreating(modelBuilder);
         }
     }

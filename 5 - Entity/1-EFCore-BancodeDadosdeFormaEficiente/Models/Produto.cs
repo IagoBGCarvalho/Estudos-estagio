@@ -17,6 +17,7 @@ namespace Alura.Loja.Testes.Models
         public double PrecoUnitario { get; set; }
         public string Unidade { get; set; }
         public IList<PromocaoProduto> Promocoes { get; set; } // Definindo relação N:M entre Produto e Promoção, sendo necessária a criação de uma tabela intermediária, que é representada pela classe PromocaoProduto
+        public IList<Compra> Compras { get; set; }
         public override string ToString()
         {
             return $"Produto: {this.Id}, {this.Nome}, {this.Categoria}, {this.PrecoUnitario}";
