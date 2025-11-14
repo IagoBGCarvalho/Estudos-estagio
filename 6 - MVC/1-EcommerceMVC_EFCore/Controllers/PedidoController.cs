@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using _1_EcommerceMVC_EFCore.Repositories;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CasaDoCodigo.Controllers
 {
@@ -13,15 +14,29 @@ namespace CasaDoCodigo.Controllers
         // no controlador que corresponda a este nome. Este método deve ter uma IActionResult como devolução e deve retornar o método View() que irá acionar
         // o arquivo cshtml com o mesmo nome do método.
         private readonly ILogger<PedidoController> _logger;
+        private readonly IProdutoRepository _produtoRepository;
 
-        public PedidoController(ILogger<PedidoController> logger)
+        public PedidoController(ILogger<PedidoController> logger, IProdutoRepository produtoRepository)
         {
             _logger = logger;
+            this._produtoRepository = produtoRepository;
         }
 
         public IActionResult Carrossel()
         {
-            return View(); // Retorna o arquivo cshtml com o nome do método, no caso "Carrossel.cshtml"
+            return View(_produtoRepository.GetProdutos()); // Retorna o arquivo cshtml com o nome do método, no caso "Carrossel.cshtml"
+        }
+        public IActionResult Carrinho()
+        {
+            return View(); 
+        }
+        public IActionResult Cadastro()
+        {
+            return View();
+        }
+        public IActionResult Resumo()
+        {
+            return View();
         }
     }
 }

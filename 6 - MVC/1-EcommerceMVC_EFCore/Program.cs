@@ -29,20 +29,50 @@
 // Para resolver definitivamente, forcei o modo de desenvolvimento no Program.cs, entrei em um repositório qualquer do github que versionou o projeto
 // da aula para copiar o conteúdo do _Layout.cshtml e colar no meu e limpei o cache do servidor com "dotnet clean" e "dotnet build".
 
+using _1_EcommerceMVC_EFCore.Data;
+using _1_EcommerceMVC_EFCore.Models;
+using _1_EcommerceMVC_EFCore.Repositories;
+using Microsoft.EntityFrameworkCore;
+
+// REGISTRO DE SERVIÇOS NO CONTAINER
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Environment.EnvironmentName = Environments.Development; // Força o programa a rodar em modo de desenvolvimento
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
 
+//var connectionString = builder.Configuration.GetConnectionString("Default"); 
+var configuration = Configuracao.LoadConfiguration(); 
+var connectionString = configuration.GetConnectionString("Default");
+
+builder.Services.AddDbContext<ApplicationContext>(options =>
+    options.UseSqlServer(connectionString)
+); // Adiciona o contexto da aplicação como serviço e define o SqlServer como DB
+
+builder.Services.AddTransient<IDataService, DataService>(); // Registrando o serviço do data service para utilizar a injeção de dependências
+builder.Services.AddTransient<IProdutoRepository, ProdutoRepository>();
+//builder.Services.AddTransient<IPedidoRepository, PedidoRepository>();
+//builder.Services.AddTransient<IItemPedidoRepository, ItemPedidoRepository>();
+//builder.Services.AddTransient<ICadastroRepository, CadastroRepository>();
+
+builder.Services.Configure<AppSettings>(configuration.GetSection("AppSettings"));
+
+// CONFIGURAÇÃO DO PIPELINE DO HTTP
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+using (var scope = app.Services.CreateScope())
+{
+    // Este using serve para criar o banco de dados na primeira inicialização da aplicação.
+    // É utilizado em um using para garantir que o contexto será utilizado com segurança.
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<IDataService>();
+
+    context.InicializaDB(); // Cria o banco e garante que todas as migrations pendentes serão aplicadas
+}
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -55,8 +85,7 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
+    pattern: "{controller=Pedido}/{action=Carrossel}/{id?}")
     .WithStaticAssets();
-
 
 app.Run();
