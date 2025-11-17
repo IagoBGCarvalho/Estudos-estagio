@@ -11,7 +11,7 @@ using _1_EcommerceMVC_EFCore.Data;
 namespace _1_EcommerceMVC_EFCore.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20251114175129_Inicial")]
+    [Migration("20251117190818_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
