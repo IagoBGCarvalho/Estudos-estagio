@@ -1,4 +1,5 @@
 ﻿using _1_EcommerceMVC_EFCore.Models;
+using _1_EcommerceMVC_EFCore.Models.ViewModels;
 using _1_EcommerceMVC_EFCore.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,12 +18,14 @@ namespace CasaDoCodigo.Controllers
         private readonly ILogger<PedidoController> _logger;
         private readonly IProdutoRepository _produtoRepository;
         private readonly IPedidoRepository _pedidoRepository;
+        private readonly IItemPedidoRepository _itemPedidoRepository;
 
-        public PedidoController(ILogger<PedidoController> logger, IProdutoRepository produtoRepository, IPedidoRepository pedidoRepository)
+        public PedidoController(ILogger<PedidoController> logger, IProdutoRepository produtoRepository, IPedidoRepository pedidoRepository, IItemPedidoRepository itemPedidoRepository)
         {
             _logger = logger;
             this._produtoRepository = produtoRepository;
             this._pedidoRepository = pedidoRepository;
+            this._itemPedidoRepository = itemPedidoRepository;
         }
 
         public IActionResult Carrossel()
@@ -36,9 +39,9 @@ namespace CasaDoCodigo.Controllers
             {
                 _pedidoRepository.AddItem(codigo);
             }
-
-            Pedido pedido = _pedidoRepository.GetPedido();
-            return View(pedido.Itens); 
+            List<ItemPedido> itens = _pedidoRepository.GetPedido().Itens;
+            CarrinhoViewModel carrinhoViewModel = new CarrinhoViewModel(itens);
+            return base.View(carrinhoViewModel); 
         }
         public IActionResult Cadastro()
         {
@@ -51,9 +54,9 @@ namespace CasaDoCodigo.Controllers
         }
 
         [HttpPost]
-        public void UpdateQuantidade([FromBody]ItemPedido itemPedido)
+        public UpdateQuantidadeResponse UpdateQuantidade([FromBody]ItemPedido itemPedido)
         {
-
+            return _pedidoRepository.UpdateQuantidade(itemPedido); 
         }
     }
 }

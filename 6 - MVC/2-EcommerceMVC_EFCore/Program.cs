@@ -33,13 +33,18 @@ using _1_EcommerceMVC_EFCore.Data;
 using _1_EcommerceMVC_EFCore.Models;
 using _1_EcommerceMVC_EFCore.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 // REGISTRO DE SERVIÇOS NO CONTAINER
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Environment.EnvironmentName = Environments.Development; // Força o programa a rodar em modo de desenvolvimento
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    });
 
 builder.Services.AddDistributedMemoryCache(); // Serviço responsável por guardar as informações da nevegação da memória
 builder.Services.AddSession(); // Ativa os cookies

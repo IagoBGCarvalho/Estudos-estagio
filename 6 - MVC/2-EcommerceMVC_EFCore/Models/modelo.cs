@@ -11,7 +11,7 @@ namespace _1_EcommerceMVC_EFCore.Models
     public class BaseModel
     {
         [DataMember]
-        public int Id { get; protected set; }
+        public int Id { get; set; }
     }
 
     public class Produto : BaseModel
@@ -68,16 +68,18 @@ namespace _1_EcommerceMVC_EFCore.Models
     {   
         [Required]
         [DataMember]
-        public Pedido Pedido { get; private set; }
+        public Pedido Pedido { get; set; }
         [Required]
         [DataMember]
-        public Produto Produto { get; private set; }
+        public Produto Produto { get; set; }
         [Required]
         [DataMember]
-        public int Quantidade { get; private set; }
+        public int Quantidade { get; set; }
         [Required]
         [DataMember]
-        public decimal PrecoUnitario { get; private set; }
+        public decimal PrecoUnitario { get; set; }
+        [DataMember]
+        public decimal Subtotal => Quantidade * PrecoUnitario;
 
         public ItemPedido()
         {
@@ -90,6 +92,11 @@ namespace _1_EcommerceMVC_EFCore.Models
             Produto = produto;
             Quantidade = quantidade;
             PrecoUnitario = precoUnitario;
+        }
+
+        internal void AtualizaQuantidade(int quantidade)
+        {
+            Quantidade = quantidade;
         }
     }
 

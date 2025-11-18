@@ -2,7 +2,7 @@
     ViewData["Title"] = "Carrinho";
 }
 
-@model IList<ItemPedido>;
+@model CarrinhoViewModel;
 
 <h3>Meu Carrinho</h3>
 
@@ -28,7 +28,7 @@
     </div>
     <div class="panel-body">
 
-        @foreach (var item in Model)
+        @foreach (var item in Model.Itens)
         {
         <div class="row row-center linha-produto" item-id="@(item.Id)">
             <div class="col-md-3">
@@ -39,14 +39,14 @@
             <div class="col-md-2 text-center">
                 <div class="input-group">
                     <span class="input-group-btn">
-                        <button class="btn btn-default">
+                            <button class="btn btn-default" onclick="carrinho.clickDecremento(this)">
                             <span class="glyphicon-minus"></span>
                         </button>
                     </span>
                     <input type="text" value="@(item.Quantidade)"
-                           class="form-control text-center" />
+                           class="form-control text-center" onblur="carrinho.updateQuantidade(this)" />
                     <span class="input-group-btn">
-                        <button class="btn btn-default" onclick="clickIncremento(this)">
+                        <button class="btn btn-default" onclick="carrinho.clickIncremento(this)">
                             <span class="glyphicon-plus"></span>
                         </button>
                     </span>
@@ -65,13 +65,13 @@
         <div class="row">
             <div class="col-md-10">
                 <span numero-itens>
-                    Total: @(Model.Count())
+                    Total: @(Model.Itens.Count())
                     itens
                 </span>
             </div>
             <div class="col-md-2">
                 Total: R$ <span class="pull-right" total>
-                    @(Model.Sum(i => i.Quantidade * i.PrecoUnitario))
+                    @(Model.Total)
                 </span>
             </div>
         </div>
@@ -93,25 +93,5 @@
 
 @section Scripts
 {
-    <script type="text/javascript">
-        function clickIncremento(btn){
-            // Sintaxe de uma função jQuery: $(selector/elemento HTML).action/ação a ser executada no elemento();
-            var linhaDoItem = $(btn).parents('[item-id]'); // parents() analisa a hierarquia do arquivo e identifica elementos que são pais do fornecido, pode receber um filtro
-            var itemId = $(linhaDoItem).attr('item-id');
-            var novaQtde = $(linhaDoItem).find('input').val(); // find() encontra elementos abaixo do especificado e val() retorna o valor de um input
-
-            var data = {
-                Id: itemId,
-                Quantidade: novaQtde
-            };
-
-            $.ajax({ // Ajax (Asynchronous Javascript Xml) é uma técnica que utiliza JS e JSON para fazer requisições assíncronas ao servidor. Precisa de 4 parâmetros: url (o endereço do método do controller, como pedido/úpdatequantidade), type (tipo de requisição HTTP), contentType (o fomato dos dados) e data (o objeto que vai levar os dados do cliente para o servidor)
-                url: "/pedido/updatequantidade",
-                type: "POST",
-                contentType: "application/json",
-                data: JSON.stringify(data)
-            });
-            debugger;
-        }
-    </script>
+    <script src="~/js/carrinho.js">//type="text/javascript"</script>
 }

@@ -1,5 +1,6 @@
 ﻿using _1_EcommerceMVC_EFCore.Data;
 using _1_EcommerceMVC_EFCore.Models;
+using _1_EcommerceMVC_EFCore.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,13 +10,16 @@ namespace _1_EcommerceMVC_EFCore.Repositories
     {
         void AddItem(string codigo);
         Pedido GetPedido();
+        UpdateQuantidadeResponse UpdateQuantidade(ItemPedido itemPedido);
     }
     public class PedidoRepository : BaseRepository<Pedido>, IPedidoRepository
     {
-        private readonly IHttpContextAccessor contextAccessor;
-        public PedidoRepository(ApplicationContext contexto, IHttpContextAccessor contextAccessor) : base(contexto)
+        private readonly IHttpContextAccessor _contextAccessor;
+        private readonly IItemPedidoRepository _itemPedidoRepository;
+        public PedidoRepository(ApplicationContext contexto, IHttpContextAccessor contextAccessor, IItemPedidoRepository itemPedidoRepository) : base(contexto)
         {
-            this.contextAccessor = contextAccessor; // Injetando o ContextAcessor (já vem por padrão registrado como serviço no container)
+            this._contextAccessor = contextAccessor;
+            this._itemPedidoRepository = itemPedidoRepository;
         }
 
         public void AddItem(string codigo)
@@ -63,13 +67,29 @@ namespace _1_EcommerceMVC_EFCore.Repositories
         {
             /// Função que pega o Id do pedido que estará armazenado na sessão
             // O objeto da sessão é fornecido por um componente chamado HttpContextAccessor
-            return contextAccessor.HttpContext.Session.GetInt32("pedidoId");
+            return _contextAccessor.HttpContext.Session.GetInt32("pedidoId");
         }
 
         private void SetPedidoId(int pedidoId)
         {
             /// Função que seta o pedidoId da sessão
-            contextAccessor.HttpContext.Session.SetInt32("pedidoId", pedidoId);
+            _contextAccessor.HttpContext.Session.SetInt32("pedidoId", pedidoId);
+        }
+
+        public UpdateQuantidadeResponse UpdateQuantidade(ItemPedido itemPedido)
+        {
+            var itemPedidoDB = _itemPedidoRepository.GetItemPedido(itemPedido.Id);
+
+            if (itemPedidoDB != null)
+            {
+                itemPedidoDB.AtualizaQuantidade(itemPedido.Quantidade);
+                contexto.SaveChanges();
+
+                var carrinhoViewModel = new CarrinhoViewModel(GetPedido().Itens);
+                return new UpdateQuantidadeResponse(itemPedidoDB, carrinhoViewModel);
+            }
+
+            throw new ArgumentException("ItemPedido não encontrado.");
         }
     }
 }
