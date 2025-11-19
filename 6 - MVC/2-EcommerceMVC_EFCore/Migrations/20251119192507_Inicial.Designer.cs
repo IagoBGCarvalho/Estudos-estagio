@@ -11,7 +11,7 @@ using _1_EcommerceMVC_EFCore.Data;
 namespace _1_EcommerceMVC_EFCore.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20251117190818_Inicial")]
+    [Migration("20251119192507_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -58,7 +58,8 @@ namespace _1_EcommerceMVC_EFCore.Migrations
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Telefone")
                         .IsRequired()
@@ -177,8 +178,7 @@ namespace _1_EcommerceMVC_EFCore.Migrations
 
             modelBuilder.Entity("_1_EcommerceMVC_EFCore.Models.Cadastro", b =>
                 {
-                    b.Navigation("Pedido")
-                        .IsRequired();
+                    b.Navigation("Pedido");
                 });
 
             modelBuilder.Entity("_1_EcommerceMVC_EFCore.Models.Pedido", b =>

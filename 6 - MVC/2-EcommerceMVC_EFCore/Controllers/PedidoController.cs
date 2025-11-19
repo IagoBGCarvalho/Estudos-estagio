@@ -45,15 +45,30 @@ namespace CasaDoCodigo.Controllers
         }
         public IActionResult Cadastro()
         {
-            return View();
+            var pedido = _pedidoRepository.GetPedido();
+
+            if (pedido == null)
+            {
+                return RedirectToAction("Carrossel"); // Método que redireciona o usuário para uma outra action/view
+            }
+
+            return View(pedido.Cadastro);
         }
-        public IActionResult Resumo()
+
+        [HttpPost] // Impede que a página seja solicitada diretamente pelo browser, pois não faz sentido poder ir para a tela de resumo sem um pedido e sem cadastro
+        [ValidateAntiForgeryToken] // Utiliza o token criptografado do navegador para prevenir ataques Cross-site Request Forgery
+        public IActionResult Resumo(Cadastro cadastro) // Precisa receber os dados do formulário em forma de objeto Cadastro
         {
-            Pedido pedido = _pedidoRepository.GetPedido();
-            return View(pedido);
+            if (ModelState.IsValid) // Objeto que possui propriedades para inferir se o modelo é valido ou não
+            {
+                return View(_pedidoRepository.UpdateCadastro(cadastro));
+            }
+
+            return RedirectToAction("Cadastro");
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public UpdateQuantidadeResponse UpdateQuantidade([FromBody]ItemPedido itemPedido)
         {
             return _pedidoRepository.UpdateQuantidade(itemPedido); 
