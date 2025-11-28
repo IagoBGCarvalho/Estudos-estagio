@@ -13,13 +13,11 @@ builder.Services.AddTransient<ArtistasAPI>();
 // É necessário especificar as configurações do HttpClient que será injetado em cada serviço, deve receber o nome do cliente HTTP especificado no serviço
 builder.Services.AddHttpClient("API", client =>
 {
-    client.BaseAddress = new Uri(builder.Configuration["APIServer"] = null!); // Configura a URL base da API a partir do appsettings.json que é mapeado pela coleção Configuration do builder
+    client.BaseAddress = new Uri(builder.Configuration["APIServer"]!); // Configura a URL base da API a partir do appsettings.json que é mapeado pela coleção Configuration do builder
 
     // É necessário especificar que tipo de dado será aceito na resposta das requisições HTTP
     client.DefaultRequestHeaders.Add("Accept", "application/json"); // Aceita respostas no formato JSON apenas
 }); 
-
-
 
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
