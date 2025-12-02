@@ -3,12 +3,12 @@
 
 <h2>Catálogo de Artistas</h2>
 
-@if (artistasPorPagina is not null) // verifica se a coleção não é nula para poder percorrer ela
+@if (artistasPorPagina is not null) // verifica se a coleção não é nula para poder percorrer ela e mostrar os cards
 {
     <div class="grid">
         @foreach (var artista in artistasPorPagina)
         {
-            <CardArtista Artista="artista" /> // Usando o componente criado
+            <CardArtista Artista="artista" /> // Atribui cada artista da coleção como atributo do componente criado
         }
     </div> 
 
@@ -18,6 +18,16 @@
             int paginaAtual = i;
             <button class="btn m-1" @onclick="() => PaginaMudou(paginaAtual)">@paginaAtual</button>
         }
+    </div>
+}
+else
+{
+    // Enquanto artistas não forem carregador na coleção artistasPorPagina, mostra uma mensagem de carregamento
+    <div class="d-flex align-items-center">
+        <div class="spinner-border text-primary me-2" role="status">
+            <span class="visually-hidden">Carregando...</span>
+        </div>
+        <span>Carregando...</span>
     </div>
 }
 

@@ -9,8 +9,9 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args); // Objeto utilizado pa
 
 // AddTransient cria um serviço com ciclo de vida temporário, o objeto vai existir apenas no contexto que for chamado e depois será descartado no Garbage Collector
 builder.Services.AddTransient<ArtistasAPI>();
+builder.Services.AddTransient<MusicasAPI>();
 
-// É necessário especificar as configurações do HttpClient que será injetado em cada serviço, deve receber o nome do cliente HTTP especificado no serviço
+// É necessário especificar as configurações do HttpClient que será injetado em cada serviço. Deve receber o nome do cliente HTTP especificado no serviço
 builder.Services.AddHttpClient("API", client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["APIServer"]!); // Configura a URL base da API a partir do appsettings.json que é mapeado pela coleção Configuration do builder
